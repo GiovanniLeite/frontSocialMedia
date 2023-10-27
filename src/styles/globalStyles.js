@@ -44,6 +44,21 @@ export const GlobalStyles = createGlobalStyle`
       a {
         text-decoration: none;
       }
+
+      .flexBetween {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .controledWidth {
+        max-width: 120rem;
+        margin: 0 auto;
+
+        @media screen and (max-width: 1250px) {
+          padding: ${theme.spacings.medium};
+        }
+      }
     }
   `}
 `;

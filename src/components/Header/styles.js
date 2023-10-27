@@ -9,12 +9,54 @@ export const Container = styled.header`
     section {
       width: 100%;
       max-width: 120rem;
+      background-color: ${theme.colors.background.alt};
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
-      padding: ${theme.spacings.medium};
+      padding: ${theme.spacings.medium} 0;
+      z-index: 1;
 
-      & > div {
+      @media screen and (max-width: 1250px) {
+        padding: ${theme.spacings.medium};
+      }
+
+      form {
+        background-color: ${theme.colors.neutral.light};
+        color: ${theme.colors.neutral.dark};
+        border-radius: 0.7rem;
+        padding: 0 ${theme.spacings.small};
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @media screen and (max-width: 550px) {
+          &.mainBarSearch {
+            display: none;
+          }
+        }
+
+        input {
+          border: none;
+          max-width: 100px;
+          padding: 0.7rem;
+          background-color: ${theme.colors.neutral.light};
+          color: ${theme.colors.neutral.dark};
+        }
+      }
+
+      a {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        color: ${theme.colors.neutral.dark};
+        padding: ${theme.spacings.extraSmall};
+
+        &:hover:not(.logo) {
+          background-color: ${theme.colors.neutral.light};
+        }
+      }
+
+      .mainBar {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -24,43 +66,54 @@ export const Container = styled.header`
           font-size: ${theme.font.sizes.large};
           font-weight: bold;
           color: ${theme.colors.primary.main};
-        }
+          padding: ${theme.spacings.extraSmall} 0;
 
-        form {
-          background-color: ${theme.colors.neutral.light};
-          color: ${theme.colors.neutral.dark};
-          border-radius: 0.7rem;
-          padding: 0 ${theme.spacings.small};
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          input {
-            border: none;
-            max-width: 100px;
-            padding: 0.7rem;
-            background-color: ${theme.colors.neutral.light};
-            color: ${theme.colors.neutral.dark};
+          &:hover {
+            color: ${theme.colors.primary.light};
           }
         }
 
-        &.menu {
+        &.menuDesk {
           a {
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: ${theme.colors.neutral.dark};
-            padding: ${theme.spacings.extraSmall};
             border-radius: 50%;
 
-            &:hover {
-              background-color: ${theme.colors.neutral.light};
+            &.buttonMenuMobile {
+              display: none;
             }
 
-            &.logout {
-              background-color: ${theme.colors.background.alt};
+            @media screen and (max-width: 550px) {
+              display: none;
+
+              &.buttonMenuMobile {
+                display: flex;
+              }
             }
+          }
+        }
+      }
+
+      .menuMobile {
+        position: fixed;
+        border-radius: 0.75rem;
+        background-color: ${theme.colors.background.alt};
+        top: -18rem;
+        right: 0.6rem;
+        padding: ${theme.spacings.extraSmall};
+        padding-bottom: 0;
+        list-style: none;
+        transition: 0.3s;
+        z-index: -1;
+
+        &.showMenuMobile {
+          top: 7.6rem;
+        }
+
+        li {
+          margin-bottom: ${theme.spacings.extraSmall};
+
+          a {
+            border-radius: 0.75rem;
+            gap: ${theme.spacings.small};
           }
         }
       }

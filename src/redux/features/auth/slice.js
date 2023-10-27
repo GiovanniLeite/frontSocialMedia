@@ -12,12 +12,31 @@ const initialState = {
 
 // to be used for slice or mockStore
 export const reducersObj = {
+  registerRequest(state, action) {
+    state.isLoading = true;
+  },
+  updateRequest(state, action) {
+    state.isLoading = true;
+  },
+  updateSuccess(state, action) {
+    state.user = action.payload;
+    state.isLoading = false;
+  },
+  loginRequest(state, action) {
+    state.isLoading = true;
+  },
+  loginSuccess(state, action) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+    state.isLoggedIn = true;
+    state.token = action.payload.token;
+    state.user = action.payload.user;
+    state.isLoading = false;
+  },
   logout(state) {
     delete axios.defaults.headers.common['Authorization'];
     state.isLoggedIn = false;
     state.token = '';
     state.user = undefined;
-    state.mode = 'light';
     state.isLoading = false;
   },
   toggleMode(state) {

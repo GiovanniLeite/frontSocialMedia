@@ -1,15 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Home from '../pages/Home';
-import Profile from '../pages/Profile';
+import Register from '../pages/Register';
 import Login from '../pages/Login';
+import Profile from '../pages/Profile';
 
 export default function Routers() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/register/" element={<Register />} />
+      <Route path="/login/" element={<Login />} />
       <Route path="/profile/:userId" element={<Profile />} />
-      <Route path="/login-register/" element={<Login />} />
     </Routes>
   );
 }

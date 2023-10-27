@@ -1,6 +1,17 @@
 import { AiOutlineSearch } from 'react-icons/ai';
-import { MdDarkMode, MdLightMode, MdMessage, MdNotifications, MdPerson, MdMenu } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import {
+  MdDarkMode,
+  MdLightMode,
+  MdMessage,
+  MdNotifications,
+  MdPerson,
+  MdMenu,
+  MdLogin,
+  MdLogout,
+} from 'react-icons/md';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { authActions } from '../../redux/features/auth/slice';
@@ -8,10 +19,34 @@ import { authActions } from '../../redux/features/auth/slice';
 import { Container } from './styles';
 
 export default function Header() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const themeMode = useSelector((state) => state.auth.mode);
   const user = useSelector((state) => state.auth.user);
+  const themeMode = useSelector((state) => state.auth.mode);
+
+  const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      // Check if the window width exceeds 550px
+      // if it does, hide the mobile menu in case it's open
+      window.innerWidth > 550 && setShowMenu(false);
+    };
+
+    const debouncedResizeHandler = debounce(handleWindowResize, 300);
+
+    window.addEventListener('resize', debouncedResizeHandler);
+
+    // Cleanup function to remove the resize event listener
+    return () => {
+      window.removeEventListener('resize', debouncedResizeHandler);
+    };
+  }, []);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    console.log('Search');
+  };
 
   const handle = async (e) => {
     e.preventDefault();
@@ -29,23 +64,22 @@ export default function Header() {
     e.preventDefault();
 
     dispatch(authActions.logout());
-    navigate('/');
   };
 
   return (
     <Container>
       <section>
-        <div>
+        <div className="mainBar">
           <Link to="/" title="Home" className="logo">
             ShareFun
           </Link>
-          <form>
+          <form className="mainBarSearch" onSubmit={(e) => handleSearch(e)}>
             <input type="text" placeholder="Procurar..." />
             <AiOutlineSearch size={20} />
           </form>
         </div>
 
-        <div className="menu">
+        <div className="mainBar menuDesk">
           <a onClick={(e) => handleToggleMode(e)}>
             {themeMode === 'light' ? <MdDarkMode size={20} title="Escuro" /> : <MdLightMode size={20} title="Claro" />}
           </a>
@@ -55,18 +89,74 @@ export default function Header() {
           <a onClick={(e) => handle(e)} title="Notificações">
             <MdNotifications size={20} />
           </a>
-          <Link to="/profile" title="Perfil">
-            <MdPerson size={20} />
-          </Link>
-          {user && (
-            <a className="logout" onClick={(e) => handleLogout(e)} title="Sair">
-              Sair
-            </a>
+          {user ? (
+            <>
+              <Link to="/profile" title="Perfil">
+                <MdPerson size={20} />
+              </Link>
+              <a className="logout" onClick={(e) => handleLogout(e)} title="Sair">
+                <MdLogout size={20} />
+              </a>
+            </>
+          ) : (
+            <Link to="/login" title="Login">
+              <MdLogin size={20} />
+            </Link>
           )}
-          <a onClick={(e) => handle(e)} title="Menu">
+          <a className="buttonMenuMobile" onClick={() => setShowMenu(!showMenu)} title="Menu">
             <MdMenu size={20} />
           </a>
         </div>
+
+        <ul className={showMenu ? 'menuMobile showMenuMobile' : 'menuMobile'}>
+          <li>
+            <form>
+              <input type="text" placeholder="Procurar..." />
+              <AiOutlineSearch size={20} />
+            </form>
+          </li>
+          <li>
+            <a onClick={(e) => handleToggleMode(e)}>
+              {themeMode === 'light' ? (
+                <>
+                  <MdDarkMode size={20} title="Escuro" /> Escuro
+                </>
+              ) : (
+                <>
+                  <MdLightMode size={20} title="Claro" /> Claro
+                </>
+              )}
+            </a>
+          </li>
+          <li>
+            <a onClick={(e) => handle(e)} title="Mensagens">
+              <MdMessage size={20} /> Mensagens
+            </a>
+          </li>
+          <li>
+            <a onClick={(e) => handle(e)} title="Notificações">
+              <MdNotifications size={20} /> Notificações
+            </a>
+          </li>
+          <li>
+            {user ? (
+              <Link to="/profile" title="Perfil">
+                <MdPerson size={20} /> Perfil
+              </Link>
+            ) : (
+              <Link to="/login" title="Login">
+                <MdLogin size={20} /> Login
+              </Link>
+            )}
+          </li>
+          {user && (
+            <li>
+              <a onClick={(e) => handleLogout(e)} title="Sair">
+                <MdLogout size={20} /> Sair
+              </a>
+            </li>
+          )}
+        </ul>
       </section>
     </Container>
   );
