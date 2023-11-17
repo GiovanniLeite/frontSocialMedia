@@ -5,6 +5,7 @@ export const Container = styled.header`
     position: fixed;
     width: 100%;
     background-color: ${theme.colors.background.alt};
+    z-index: 1;
 
     section {
       width: 100%;
@@ -96,7 +97,7 @@ export const Container = styled.header`
         position: fixed;
         border-radius: 0.75rem;
         background-color: ${theme.colors.background.alt};
-        top: -18rem;
+        top: -21rem;
         right: 0.6rem;
         padding: ${theme.spacings.extraSmall};
         padding-bottom: 0;

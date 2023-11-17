@@ -1,9 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.section`
+export const Container = styled.main`
   ${({ theme }) => css`
     padding: 9.4rem 0 ${theme.spacings.medium};
-    background-color: ${theme.colors.background.default};
 
     .controledWidth {
       display: flex;

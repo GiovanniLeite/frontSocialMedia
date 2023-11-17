@@ -8,22 +8,27 @@ const initialState = {
   user: undefined,
   mode: 'light',
   isLoading: false,
+  errors: [],
 };
 
 // to be used for slice or mockStore
 export const reducersObj = {
   registerRequest(state, action) {
     state.isLoading = true;
+    state.errors = [];
   },
   updateRequest(state, action) {
     state.isLoading = true;
+    state.errors = [];
   },
   updateSuccess(state, action) {
     state.user = action.payload;
     state.isLoading = false;
+    state.errors = [];
   },
   loginRequest(state, action) {
     state.isLoading = true;
+    state.errors = [];
   },
   loginSuccess(state, action) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
@@ -31,13 +36,15 @@ export const reducersObj = {
     state.token = action.payload.token;
     state.user = action.payload.user;
     state.isLoading = false;
+    state.errors = [];
   },
-  logout(state) {
+  logout(state, action) {
     delete axios.defaults.headers.common['Authorization'];
     state.isLoggedIn = false;
     state.token = '';
     state.user = undefined;
     state.isLoading = false;
+    state.errors = action.payload.errors;
   },
   toggleMode(state) {
     state.mode = state.mode === 'light' ? 'dark' : 'light';

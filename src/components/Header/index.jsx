@@ -51,10 +51,10 @@ export default function Header() {
   const handle = async (e) => {
     e.preventDefault();
 
-    console.log('Hi');
+    console.log('handle');
   };
 
-  const handleToggleMode = async (e) => {
+  const toggleMode = async (e) => {
     e.preventDefault();
 
     dispatch(authActions.toggleMode());
@@ -63,7 +63,7 @@ export default function Header() {
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    dispatch(authActions.logout());
+    dispatch(authActions.logout({ errors: [] }));
   };
 
   return (
@@ -80,7 +80,7 @@ export default function Header() {
         </div>
 
         <div className="mainBar menuDesk">
-          <a onClick={(e) => handleToggleMode(e)}>
+          <a onClick={(e) => toggleMode(e)}>
             {themeMode === 'light' ? <MdDarkMode size={20} title="Escuro" /> : <MdLightMode size={20} title="Claro" />}
           </a>
           <a onClick={(e) => handle(e)} title="Mensagens">
@@ -116,7 +116,7 @@ export default function Header() {
             </form>
           </li>
           <li>
-            <a onClick={(e) => handleToggleMode(e)}>
+            <a onClick={(e) => toggleMode(e)}>
               {themeMode === 'light' ? (
                 <>
                   <MdDarkMode size={20} title="Escuro" /> Escuro

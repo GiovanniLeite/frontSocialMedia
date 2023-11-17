@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 
 import { Container } from './styles';
 
-export default function TextField({ label, value, className = '', error, ...rest }) {
+export default function TextField({ label, id, value, className = '', error, ...rest }) {
   return (
     <Container>
-      <input className={`${className} ${value ? 'inputFilled' : ''} ${error ? 'inputError' : ''}`} {...rest} />
-      <label>{label}</label>
+      <input id={id} className={`${className} ${value ? 'inputFilled' : ''} ${error ? 'inputError' : ''}`} {...rest} />
+      <label htmlFor={id}>{label}</label>
       {error && <p>{error}</p>}
     </Container>
   );
@@ -14,6 +14,7 @@ export default function TextField({ label, value, className = '', error, ...rest
 
 TextField.propTypes = {
   label: PropTypes.string,
+  id: PropTypes.string,
   value: PropTypes.string,
   className: PropTypes.string,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

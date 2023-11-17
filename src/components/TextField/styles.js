@@ -13,6 +13,7 @@ export const Container = styled.div`
       background-color: ${theme.colors.background.alt};
       color: ${theme.colors.neutral.mediumMain};
       padding: 0 ${theme.spacings.extraSmall};
+      cursor: text;
     }
 
     input {
@@ -43,16 +44,16 @@ export const Container = styled.div`
       }
 
       &.inputError {
-        border-color: #ff6b6b;
+        border-color: ${theme.colors.error};
 
         + label {
-          color: #ff6b6b;
+          color: ${theme.colors.error};
         }
       }
     }
 
     p {
-      color: #ff6b6b;
+      color: ${theme.colors.error};
       padding: ${theme.spacings.extraSmall} 0 0 ${theme.spacings.extraSmall};
     }
   `}

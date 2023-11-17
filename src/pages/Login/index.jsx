@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { authActions } from '../../redux/features/auth/slice';
 
+import FormBox from '../../components/FormBox';
 import TextField from '../../components/TextField';
+import Loading from '../../components/Loading';
 import { Container } from './styles';
 
+/* START Form validation */
 const schema = yup.object().shape({
   email: yup.string().email('Email inválido').required('Campo Obrigatório'),
   password: yup.string().required('Campo Obrigatório'),
@@ -19,6 +22,7 @@ const initialValues = {
   email: '',
   password: '',
 };
+/* END Form validation */
 
 export default function Login() {
   const navigate = useNavigate();
@@ -26,10 +30,10 @@ export default function Login() {
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isLoading = useSelector((state) => state.auth.isLoading);
+  const serverErrors = useSelector((state) => state.auth.errors); // Back-end errors
 
-  const handleFormSubmit = (values, onSubmitProps) => {
+  const handleFormSubmit = (values) => {
     dispatch(authActions.loginRequest(values));
-    // onSubmitProps.resetForm();
   };
 
   useEffect(() => {
@@ -44,38 +48,58 @@ export default function Login() {
         <title>ShareFun | Login | Comece a compartilhar</title>
       </Helmet>
       <Container>
-        <div className="box">
-          <h5>Bem vindo à ShareFun, a Rede Social que transforma conexões!</h5>
+        <FormBox>
           <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={schema}>
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, setFieldValue, resetForm }) => (
+            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <TextField
-                  type="text"
+                  label="Email"
+                  id="email"
                   name="email"
                   value={values.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  error={Boolean(touched.email) && errors.email}
+                  error={touched.email && errors.email}
+                  disabled={isLoading}
                 />
                 <TextField
                   type="password"
                   label="Senha"
+                  id="password"
                   name="password"
                   value={values.password}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  error={Boolean(touched.password) & errors.password}
+                  error={touched.password && errors.password}
+                  disabled={isLoading}
                 />
-                <button type="submit" title="Fazer login">
-                  Entrar
-                </button>
+
+                {isLoading ? (
+                  <button type="button" className="buttonLoading">
+                    <Loading />
+                  </button>
+                ) : (
+                  <button type="submit" title="Fazer login">
+                    Entrar
+                  </button>
+                )}
+                {serverErrors.map((error, index) => (
+                  <p className="errors" key={index}>
+                    {error}
+                  </p>
+                ))}
+                {serverErrors.length > 0 && (
+                  <Link to="/" className="passwordRecover" title="Esqueceu a senha? Clique aqui">
+                    Esqueceu a senha? Clique aqui
+                  </Link>
+                )}
                 <Link to="/register" title="Ainda não tem uma conta? Crie uma aqui">
                   Ainda não tem uma conta? Crie uma aqui
                 </Link>
               </form>
             )}
           </Formik>
-        </div>
+        </FormBox>
       </Container>
     </>
   );

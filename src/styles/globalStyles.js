@@ -11,11 +11,18 @@ export const GlobalStyles = createGlobalStyle`
 
     html {
       font-size: 62.5%;
+      scroll-behavior: smooth;
     }
 
     body {
       font-family: ${theme.font.fontFamily};
       font-size: ${theme.font.sizes.small};
+
+      main {
+        padding: 9.4rem ${theme.spacings.medium} ${theme.spacings.medium};
+        background-color: ${theme.colors.background.default};
+        min-height: 100vh;
+      }
 
       h1 {
         font-size: 4rem;

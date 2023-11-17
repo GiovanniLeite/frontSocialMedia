@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 
-public
+public/assets/*
 .env
 
 # Editor directories and files
