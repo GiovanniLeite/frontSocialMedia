@@ -2,38 +2,24 @@ import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { authActions } from '../../redux/features/auth/slice';
+import { authActions as actions } from '../../redux/features/auth/slice';
+import { formValidation } from './formValidation';
 
 import FormBox from '../../components/FormBox';
 import TextField from '../../components/TextField';
 import Loading from '../../components/Loading';
 import { Container } from './styles';
 
-/* START Form validation */
-const schema = yup.object().shape({
-  email: yup.string().email('Email inválido').required('Campo Obrigatório'),
-  password: yup.string().required('Campo Obrigatório'),
-});
-
-const initialValues = {
-  email: '',
-  password: '',
-};
-/* END Form validation */
-
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const isLoading = useSelector((state) => state.auth.isLoading);
-  const serverErrors = useSelector((state) => state.auth.errors); // Back-end errors
+  const { isLoggedIn, isLoading, errors: apiErrors } = useSelector((state) => state.auth);
 
   const handleFormSubmit = (values) => {
-    dispatch(authActions.loginRequest(values));
+    dispatch(actions.loginRequest(values));
   };
 
   useEffect(() => {
@@ -49,7 +35,11 @@ export default function Login() {
       </Helmet>
       <Container>
         <FormBox>
-          <Formik onSubmit={handleFormSubmit} initialValues={initialValues} validationSchema={schema}>
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={formValidation.initialValues}
+            validationSchema={formValidation.schema}
+          >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -74,21 +64,20 @@ export default function Login() {
                   disabled={isLoading}
                 />
 
-                {isLoading ? (
-                  <button type="button" className="buttonLoading">
-                    <Loading />
-                  </button>
-                ) : (
-                  <button type="submit" title="Fazer login">
-                    Entrar
-                  </button>
-                )}
-                {serverErrors.map((error, index) => (
+                <button
+                  type={isLoading ? 'button' : 'submit'}
+                  className={isLoading ? 'buttonLoading' : ''}
+                  title="Fazer login"
+                >
+                  {isLoading ? <Loading /> : 'Entrar'}
+                </button>
+
+                {apiErrors.map((error, index) => (
                   <p className="errors" key={index}>
                     {error}
                   </p>
                 ))}
-                {serverErrors.length > 0 && (
+                {apiErrors.length > 0 && (
                   <Link to="/" className="passwordRecover" title="Esqueceu a senha? Clique aqui">
                     Esqueceu a senha? Clique aqui
                   </Link>

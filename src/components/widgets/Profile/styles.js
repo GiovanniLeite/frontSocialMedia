@@ -6,6 +6,8 @@ export const Container = styled.section`
     background-color: ${theme.colors.background.alt};
     color: ${theme.colors.neutral.main};
     padding: ${theme.spacings.small};
+    margin-bottom: ${theme.spacings.medium};
+    align-self: start;
 
     a {
       cursor: pointer;

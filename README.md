@@ -1,4 +1,4 @@
-# Social Media (Front-end)
+# Social Media (Front-end) (Work in Progress)
 
 Back-end correspondente: https://github.com/GiovanniLeite/backendSocialMedia
 
@@ -12,7 +12,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium od
 - Redux
 - HTML5
 - CSS3
-- Material UI
 - Formik
 - ESLint
 - Prettier

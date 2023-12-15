@@ -8,6 +8,7 @@ export default function UserImage({ image, size = '60px', userName }) {
       style={{ objectFit: 'cover', borderRadius: '50%', marginRight: '1rem' }}
       width={size}
       height={size}
+      title={userName}
     />
   );
 }

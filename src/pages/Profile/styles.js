@@ -6,8 +6,12 @@ export const Container = styled.main`
 
     .controledWidth {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+      grid-template-columns: 1fr 3fr;
       gap: ${theme.spacings.medium};
+
+      .errorProfile {
+        color: ${theme.colors.neutral.dark};
+      }
 
       @media (max-width: 1000px) {
         grid-template-columns: 1fr;

@@ -13,8 +13,8 @@ export default function TextField({ label, id, value, className = '', error, ...
 }
 
 TextField.propTypes = {
-  label: PropTypes.string,
-  id: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   value: PropTypes.string,
   className: PropTypes.string,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),

@@ -14,14 +14,13 @@ import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { authActions } from '../../redux/features/auth/slice';
+import { authActions as actions } from '../../redux/features/auth/slice';
 
 import { Container } from './styles';
 
 export default function Header() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const themeMode = useSelector((state) => state.auth.mode);
+  const { user, mode } = useSelector((state) => state.auth);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -54,16 +53,16 @@ export default function Header() {
     console.log('handle');
   };
 
-  const toggleMode = async (e) => {
+  const toggleThemeMode = async (e) => {
     e.preventDefault();
 
-    dispatch(authActions.toggleMode());
+    dispatch(actions.toggleThemeMode());
   };
 
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    dispatch(authActions.logout({ errors: [] }));
+    dispatch(actions.logout({ errors: [] }));
   };
 
   return (
@@ -80,8 +79,8 @@ export default function Header() {
         </div>
 
         <div className="mainBar menuDesk">
-          <a onClick={(e) => toggleMode(e)}>
-            {themeMode === 'light' ? <MdDarkMode size={20} title="Escuro" /> : <MdLightMode size={20} title="Claro" />}
+          <a onClick={(e) => toggleThemeMode(e)}>
+            {mode === 'light' ? <MdLightMode size={20} title="Claro" /> : <MdDarkMode size={20} title="Escuro" />}
           </a>
           <a onClick={(e) => handle(e)} title="Mensagens">
             <MdMessage size={20} />
@@ -116,8 +115,8 @@ export default function Header() {
             </form>
           </li>
           <li>
-            <a onClick={(e) => toggleMode(e)}>
-              {themeMode === 'light' ? (
+            <a onClick={(e) => toggleThemeMode(e)}>
+              {mode === 'light' ? (
                 <>
                   <MdDarkMode size={20} title="Escuro" /> Escuro
                 </>

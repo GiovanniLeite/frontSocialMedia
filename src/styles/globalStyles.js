@@ -63,7 +63,7 @@ export const GlobalStyles = createGlobalStyle`
         margin: 0 auto;
 
         @media screen and (max-width: 1250px) {
-          padding: ${theme.spacings.medium};
+          padding: 0 ${theme.spacings.medium} ${theme.spacings.medium};
         }
       }
     }

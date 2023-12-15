@@ -10,7 +10,7 @@ import Header from './components/Header';
 import Routers from './routes';
 
 export default function App() {
-  const mode = useSelector((state) => state.auth.mode);
+  const { mode } = useSelector((state) => state.auth);
 
   return (
     <BrowserRouter>

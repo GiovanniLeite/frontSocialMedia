@@ -5,15 +5,17 @@ import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, R
 import rootSaga from './rootSaga';
 
 import authReducer from '../features/auth/slice';
+import friendListReducer from '../features/friendList/slice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  friendList: friendListReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'friendList'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

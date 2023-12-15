@@ -51,33 +51,11 @@ const theme = (mode) => {
   const lightMode = {
     colors: {
       primary: {
-        dark: colorTokens.primary[200],
-        main: colorTokens.primary[500],
-        light: colorTokens.primary[600],
-      },
-      neutral: {
-        dark: colorTokens.grey[100],
-        main: colorTokens.grey[200],
-        mediumMain: colorTokens.grey[300],
-        medium: colorTokens.grey[400],
-        light: colorTokens.grey[700],
-      },
-      background: {
-        default: colorTokens.grey[900],
-        alt: colorTokens.grey[800],
-      },
-      error: colorTokens.error,
-    },
-    spacings,
-    font,
-  };
-
-  const darkMode = {
-    colors: {
-      primary: {
         dark: colorTokens.primary[700],
         main: colorTokens.primary[500],
-        light: colorTokens.primary[300],
+        mediumMain: colorTokens.primary[400],
+        medium: colorTokens.primary[300],
+        light: colorTokens.primary[50],
       },
       neutral: {
         dark: colorTokens.grey[700],
@@ -89,6 +67,32 @@ const theme = (mode) => {
       background: {
         default: colorTokens.grey[10],
         alt: colorTokens.grey[0],
+      },
+      error: colorTokens.error,
+    },
+    spacings,
+    font,
+  };
+
+  const darkMode = {
+    colors: {
+      primary: {
+        dark: colorTokens.primary[200],
+        main: colorTokens.primary[500],
+        mediumMain: colorTokens.primary[600],
+        medium: colorTokens.primary[700],
+        light: colorTokens.primary[800],
+      },
+      neutral: {
+        dark: colorTokens.grey[100],
+        main: colorTokens.grey[200],
+        mediumMain: colorTokens.grey[300],
+        medium: colorTokens.grey[400],
+        light: colorTokens.grey[700],
+      },
+      background: {
+        default: colorTokens.grey[900],
+        alt: colorTokens.grey[800],
       },
       error: colorTokens.error,
     },

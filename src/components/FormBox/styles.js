@@ -39,7 +39,7 @@ export const Container = styled.section`
 
       &:hover:not(.buttonLoading) {
         cursor: pointer;
-        background-color: ${theme.colors.primary.light};
+        background-color: ${theme.colors.primary.mediumMain};
       }
 
       &.buttonLoading {
@@ -59,7 +59,7 @@ export const Container = styled.section`
       margin-top: ${theme.spacings.small};
 
       &:hover:not(.passwordRecover) {
-        color: ${theme.colors.primary.light};
+        color: ${theme.colors.primary.medium};
       }
 
       &.passwordRecover {

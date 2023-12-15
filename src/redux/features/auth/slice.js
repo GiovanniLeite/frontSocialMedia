@@ -32,11 +32,11 @@ export const reducersObj = {
   },
   loginSuccess(state, action) {
     axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
-    state.isLoggedIn = true;
     state.token = action.payload.token;
     state.user = action.payload.user;
-    state.isLoading = false;
     state.errors = [];
+    state.isLoggedIn = true;
+    state.isLoading = false;
   },
   logout(state, action) {
     delete axios.defaults.headers.common['Authorization'];
@@ -46,7 +46,7 @@ export const reducersObj = {
     state.isLoading = false;
     state.errors = action.payload.errors;
   },
-  toggleMode(state) {
+  toggleThemeMode(state) {
     state.mode = state.mode === 'light' ? 'dark' : 'light';
   },
 };

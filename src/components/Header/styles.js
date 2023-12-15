@@ -70,7 +70,7 @@ export const Container = styled.header`
           padding: ${theme.spacings.extraSmall} 0;
 
           &:hover {
-            color: ${theme.colors.primary.light};
+            color: ${theme.colors.primary.medium};
           }
         }
 
