@@ -6,7 +6,6 @@ export const Container = styled.section`
     background-color: ${theme.colors.background.alt};
     color: ${theme.colors.neutral.medium};
     padding: ${theme.spacings.small};
-    margin-bottom: ${theme.spacings.medium};
 
     h5 {
       color: ${theme.colors.neutral.dark};
@@ -14,12 +13,25 @@ export const Container = styled.section`
     }
 
     a {
+      color: ${theme.colors.neutral.medium};
+
+      &:hover {
+        color: ${theme.colors.primary.main};
+      }
+
+      img {
+        width: 100%;
+        border-radius: 0.75rem;
+        margin: 0.75rem 0;
+      }
     }
 
-    img {
-      width: 100%;
-      border-radius: 0.75rem;
-      margin: 0.75rem 0;
+    .adTitle {
+      padding-bottom: ${theme.spacings.small};
+
+      p:first-child {
+        color: ${theme.colors.neutral.dark};
+      }
     }
   `}
 `;

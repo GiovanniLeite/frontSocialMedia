@@ -6,16 +6,27 @@ export const Container = styled.section`
     background-color: ${theme.colors.background.alt};
     color: ${theme.colors.neutral.main};
     padding: ${theme.spacings.small};
-    margin-bottom: ${theme.spacings.medium};
+    width: 100%;
     align-self: start;
+
+    .userInfo {
+      max-width: calc(100% - 40px);
+
+      div {
+        max-width: calc(100% - 70px);
+      }
+    }
 
     a {
       cursor: pointer;
       color: ${theme.colors.neutral.main};
-    }
 
-    h4 {
-      color: ${theme.colors.neutral.dark};
+      h4 {
+        color: ${theme.colors.neutral.dark};
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
 
     span {
@@ -23,7 +34,7 @@ export const Container = styled.section`
       color: ${theme.colors.neutral.medium};
     }
 
-    .editProfile {
+    .profileButton {
       margin-left: ${theme.spacings.small};
       padding: ${theme.spacings.extraSmall};
       border-radius: 50%;

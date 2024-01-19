@@ -12,6 +12,12 @@ export const Container = styled.main`
       @media (max-width: 1000px) {
         grid-template-columns: 1fr;
       }
+
+      .rightSection {
+        display: flex;
+        flex-direction: column;
+        gap: ${theme.spacings.medium};
+      }
     }
   `}
 `;

@@ -12,6 +12,7 @@ export default function FriendList({ userId, length = 6 }) {
   const dispatch = useDispatch();
 
   const { isLoading, errors, list } = useSelector((state) => state.friendList);
+  // console.log(list);
 
   useEffect(() => {
     dispatch(actions.getFriendList(userId));

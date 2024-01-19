@@ -38,7 +38,7 @@ export default function Home() {
           Meio
         </section>
         {!isMobile && (
-          <section>
+          <section className="rightSection">
             <AdWrapper />
             <FriendList userId={user._id} />
           </section>
