@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { friendListActions as actions } from '../../../redux/features/friendList/slice';
 
-import Friend from '../../Friend';
+import Friend from '../Friend';
 import Loading from '../../Loading';
 import { Container } from './styles';
 

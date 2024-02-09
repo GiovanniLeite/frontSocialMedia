@@ -1,8 +1,7 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { get } from 'lodash';
 
 import axios from '../../../services/axios';
-import { NO_FRIENDS_ERROR, USER_NOT_FOUND_ERROR } from '../../../constants/errorMessages';
+import { NO_DATA_ERROR, USER_NOT_FOUND_ERROR } from '../../../constants/errorMessages';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
 
 import { friendListActions as actions } from './slice';
@@ -10,7 +9,7 @@ import { friendListActions as actions } from './slice';
 export function* getFriendList(action) {
   try {
     const { data } = yield call(axios.get, `/users/${action.payload}/friends`);
-    const errors = data.length === 0 ? [NO_FRIENDS_ERROR] : [];
+    const errors = data.length === 0 ? [NO_DATA_ERROR] : [];
 
     yield put(actions.setFriendList({ list: data, errors }));
   } catch (e) {

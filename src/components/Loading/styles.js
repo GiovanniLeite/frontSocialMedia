@@ -7,8 +7,6 @@ export const Container = styled.section`
       border: 6px solid #e5e5e5;
       border-radius: 50%;
       border-top-color: ${theme.colors.primary.main};
-      height: 37px;
-      width: 37px;
       margin: 0 auto;
     }
 

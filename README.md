@@ -12,7 +12,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque pretium od
 - Redux
 - HTML5
 - CSS3
-- Formik
+- Vite
 - ESLint
 - Prettier
 

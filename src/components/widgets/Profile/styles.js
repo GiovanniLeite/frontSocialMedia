@@ -45,11 +45,6 @@ export const Container = styled.section`
       }
     }
 
-    .divider {
-      border-bottom: 1px solid ${theme.colors.neutral.medium};
-      margin: ${theme.spacings.small} 0;
-    }
-
     ul {
       list-style: none;
 

@@ -9,29 +9,21 @@ import { AiOutlineTwitter, AiFillLinkedin } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { API_URL } from '../../../constants/appConfig';
-
-import UserImage from '../../UserImage';
+import UserImage from '../UserImage';
 import { Container } from './styles';
 
 export default function Profile({ user }) {
-  const picturePath = user.picturePath ? `images/user-profile/${user.picturePath}` : 'assets/default-avatar.png';
-
-  const { user: loggedUser } = useSelector((state) => state.auth);
-  const [isLoggedUser, setIsLoggedUser] = useState(false);
+  const { user: loggedInUser } = useSelector((state) => state.auth);
+  const isLoggedInUser = loggedInUser._id === user._id;
   const [isFriend, setIsFriend] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedUser(user._id === loggedUser._id);
-  }, [user]);
 
   return (
     <Container>
       <div className="flexBetween">
         <div className="flexBetween userInfo">
-          <UserImage image={`${API_URL}${picturePath}`} userName={user.firstName} />
+          <UserImage image={user.picturePath} userName={user.firstName} />
           <div>
             <Link to={`/profile/${user._id}`} title={`${user.firstName} ${user.lastName}`}>
               <h4>
@@ -41,7 +33,7 @@ export default function Profile({ user }) {
             <span>{user.friends.length} Amigos</span>
           </div>
         </div>
-        {isLoggedUser ? (
+        {isLoggedInUser ? (
           <Link to={`/edit-profile/${user._id}`} className="profileButton" title="Editar perfil">
             <MdOutlineManageAccounts size={20} />
           </Link>

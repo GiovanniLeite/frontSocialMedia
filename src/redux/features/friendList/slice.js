@@ -13,9 +13,11 @@ export const reducersObj = {
     state.errors = [];
   },
   setFriendList(state, action) {
-    state.list = action.payload.list;
+    const { list, errors } = action.payload;
+
+    state.list = list;
     state.isLoading = false;
-    state.errors = action.payload.errors;
+    state.errors = errors;
   },
 };
 

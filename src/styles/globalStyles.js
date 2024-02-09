@@ -66,6 +66,11 @@ export const GlobalStyles = createGlobalStyle`
           padding: 0 ${theme.spacings.medium} ${theme.spacings.medium};
         }
       }
+
+      .divider {
+        border-bottom: 1px solid ${theme.colors.neutral.medium};
+        margin: ${theme.spacings.small} 0;
+      }
     }
   `}
 `;

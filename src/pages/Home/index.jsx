@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import { Helmet } from 'react-helmet-async';
 
 import ProfileWidget from '../../components/widgets/Profile';
 import AdWrapper from '../../components/widgets/AdWrapper';
 import FriendList from '../../components/widgets/FriendList';
 import { Container } from './styles';
+import Posts from '../../components/widgets/Posts';
 
 export default function Home() {
   const { user } = useSelector((state) => state.auth);
@@ -31,19 +33,22 @@ export default function Home() {
   }, []);
 
   return (
-    <Container>
-      <div className="controledWidth">
-        <ProfileWidget user={user} />
-        <section style={{ width: '100%', backgroundColor: 'red', textAlign: 'center', borderRadius: '0.7rem' }}>
-          Meio
-        </section>
-        {!isMobile && (
-          <section className="rightSection">
-            <AdWrapper />
-            <FriendList userId={user._id} />
-          </section>
-        )}
-      </div>
-    </Container>
+    <>
+      <Helmet>
+        <title>ShareFun | Home </title>
+      </Helmet>
+      <Container>
+        <div className="controledWidth">
+          <ProfileWidget user={user} />
+          <Posts />
+          {!isMobile && (
+            <section className="rightSection">
+              <AdWrapper />
+              <FriendList userId={user._id} />
+            </section>
+          )}
+        </div>
+      </Container>
+    </>
   );
 }

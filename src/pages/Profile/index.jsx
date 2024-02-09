@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
 
 import axios from '../../services/axios';
 import { handleApiErrorMessages } from '../../services/handleApiErrors';
@@ -9,6 +10,7 @@ import { USER_NOT_FOUND_ERROR } from '../../constants/errorMessages';
 import Loading from '../../components/Loading';
 import ProfileWidget from '../../components/widgets/Profile';
 import FriendList from '../../components/widgets/FriendList';
+import Posts from '../../components/widgets/Posts';
 import { Container } from './styles';
 
 export default function Profile() {
@@ -46,25 +48,28 @@ export default function Profile() {
   }, [id]);
 
   return (
-    <Container>
-      <div className="controledWidth">
-        {errors.map((error, index) => (
-          <p className="errorProfile" key={index}>
-            {error}
-          </p>
-        ))}
-        {(isLoading && <Loading />) || (
-          <>
-            <div>
-              <ProfileWidget user={user} />
-              <FriendList userId={user._id} />
-            </div>
-            <section style={{ width: '100%', backgroundColor: 'red', textAlign: 'center', borderRadius: '0.7rem' }}>
-              Meio
-            </section>
-          </>
-        )}
-      </div>
-    </Container>
+    <>
+      <Helmet>
+        <title>ShareFun | {`${loggedUser.firstName} ${loggedUser.lastName}`}</title>
+      </Helmet>
+      <Container>
+        <div className="controledWidth">
+          {errors.map((error, index) => (
+            <p className="errorProfile" key={index}>
+              {error}
+            </p>
+          ))}
+          {(isLoading && <Loading />) || (
+            <>
+              <div>
+                <ProfileWidget user={user} />
+                <FriendList userId={user._id} />
+              </div>
+              <Posts userId={user._id} />
+            </>
+          )}
+        </div>
+      </Container>
+    </>
   );
 }

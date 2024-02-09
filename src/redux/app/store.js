@@ -6,16 +6,18 @@ import rootSaga from './rootSaga';
 
 import authReducer from '../features/auth/slice';
 import friendListReducer from '../features/friendList/slice';
+import postListReducer from '../features/postList/slice';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   friendList: friendListReducer,
+  postList: postListReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth', 'friendList'],
+  whitelist: ['auth', 'friendList', 'postList'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
