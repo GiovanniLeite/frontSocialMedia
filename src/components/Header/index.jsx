@@ -62,7 +62,7 @@ export default function Header() {
   const handleLogout = async (e) => {
     e.preventDefault();
 
-    dispatch(actions.logout({ errors: [] }));
+    dispatch(actions.logout({ page: '', errorMessages: [] }));
   };
 
   return (

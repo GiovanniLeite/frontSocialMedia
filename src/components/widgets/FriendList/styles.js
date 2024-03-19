@@ -6,10 +6,21 @@ export const Container = styled.section`
     background-color: ${theme.colors.background.alt};
     padding: ${theme.spacings.small};
 
-    h4 {
-      font-weight: 600;
+    .title {
       margin-bottom: ${theme.spacings.small};
-      color: ${theme.colors.neutral.dark};
+
+      h4 {
+        font-weight: 600;
+        color: ${theme.colors.neutral.dark};
+      }
+
+      a {
+        color: ${theme.colors.neutral.mediumMain};
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
     }
 
     & > p {

@@ -70,9 +70,9 @@ export const Container = styled.section`
       }
     }
 
-    .socialMedia {
+    h6 {
       font-weight: 400;
-      margin-bottom: ${theme.spacings.small};
+      margin-bottom: ${theme.spacings.extraSmall};
     }
   `}
 `;

@@ -10,7 +10,6 @@ import { API_URL } from '../../../constants/appConfig';
 import Friend from '../Friend';
 import { Container } from './styles';
 
-// resolver parada do isFriend
 export default function Post({ post }) {
   const dispatch = useDispatch();
 
@@ -45,7 +44,6 @@ export default function Post({ post }) {
         name={`${firstName} ${lastName}`}
         subtitle={location}
         picturePath={userPicturePath}
-        isFriend={false}
       />
       <p>{description}</p>
       {picturePath && <img className="postImage" src={`${API_URL}images/posts/${picturePath}`} alt="post" />}

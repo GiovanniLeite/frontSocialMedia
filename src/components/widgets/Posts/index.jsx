@@ -9,7 +9,7 @@ import NewPost from '../NewPost';
 import Post from '../Post';
 import { Container } from './styles';
 
-export default function Posts({ userId = false }) {
+export default function Posts({ userId = '' }) {
   const dispatch = useDispatch();
 
   const { isLoading, errors, posts } = useSelector((state) => state.postList);
@@ -20,7 +20,7 @@ export default function Posts({ userId = false }) {
 
   return (
     <Container>
-      <NewPost />
+      <NewPost page={userId ? 'profile' : 'home'} />
       {errors.map((error, index) => (
         <p className="error" key={index}>
           {error}
@@ -32,5 +32,5 @@ export default function Posts({ userId = false }) {
 }
 
 Posts.propTypes = {
-  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([false])]),
+  userId: PropTypes.string,
 };

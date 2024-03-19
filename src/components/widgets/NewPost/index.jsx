@@ -11,6 +11,7 @@ import {
   MdOutlineMoreHoriz,
 } from 'react-icons/md';
 import { debounce } from 'lodash';
+import PropTypes from 'prop-types';
 
 import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
@@ -20,7 +21,7 @@ import UserImage from '../UserImage';
 import Loading from '../../Loading';
 import { Container } from './styles';
 
-export default function NewPost() {
+export default function NewPost({ page }) {
   const dispatch = useDispatch();
 
   const { firstName, picturePath: userPicture } = useSelector((state) => state.auth.user);
@@ -46,7 +47,7 @@ export default function NewPost() {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.post('/posts', formData);
+      const { data } = await axios.post(`/posts/${page}`, formData);
 
       setText('');
       setImage(null);
@@ -172,3 +173,7 @@ export default function NewPost() {
     </Container>
   );
 }
+
+NewPost.propTypes = {
+  page: PropTypes.string.isRequired,
+};

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -12,7 +13,6 @@ export default function FriendList({ userId, length = 6 }) {
   const dispatch = useDispatch();
 
   const { isLoading, errors, list } = useSelector((state) => state.friendList);
-  // console.log(list);
 
   useEffect(() => {
     dispatch(actions.getFriendList(userId));
@@ -20,7 +20,10 @@ export default function FriendList({ userId, length = 6 }) {
 
   return (
     <Container>
-      <h4>Amigos</h4>
+      <div className="flexBetween title">
+        <h4>Amigos</h4>
+        {list.length >= length && <Link to={`/friends/${userId}`}>Ver todos</Link>}
+      </div>
       {(isLoading && <Loading />) || errors.map((error, index) => <p key={index}>{error}</p>)}
       {isLoading ||
         list
@@ -33,6 +36,7 @@ export default function FriendList({ userId, length = 6 }) {
               subtitle={friend.occupation}
               picturePath={friend.picturePath}
               isFriend={friend.isFriend}
+              showFriendshipButton={true}
             />
           ))}
     </Container>

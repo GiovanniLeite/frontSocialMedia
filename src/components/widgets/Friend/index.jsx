@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { MdOutlinePersonRemove, MdPersonAddAlt } from 'react-icons/md';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
@@ -11,13 +10,10 @@ import Loading from '../../Loading';
 import UserImage from '../UserImage';
 import { Container } from './styles';
 
-export default function Friend({ id, name, subtitle, picturePath, isFriend }) {
+export default function Friend({ id, name, subtitle, picturePath, isFriend = false, showFriendshipButton = false }) {
   const [hasFriendship, setHasFriendship] = useState(isFriend);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
-
-  const { user: loggedInUser } = useSelector((state) => state.auth);
-  const isLoggedInUser = loggedInUser._id === id;
 
   const toggleFriend = async () => {
     setIsLoading(true);
@@ -49,7 +45,7 @@ export default function Friend({ id, name, subtitle, picturePath, isFriend }) {
             <span title={subtitle}>{subtitle}</span>
           </div>
         </div>
-        {!isLoggedInUser &&
+        {showFriendshipButton &&
           ((isLoading && <Loading />) || (
             <button
               className={hasFriendship ? 'removeFriend' : ''}
@@ -72,5 +68,6 @@ Friend.propTypes = {
   name: PropTypes.string.isRequired,
   subtitle: PropTypes.string.isRequired,
   picturePath: PropTypes.string.isRequired,
-  isFriend: PropTypes.bool.isRequired,
+  isFriend: PropTypes.bool,
+  showFriendshipButton: PropTypes.bool,
 };

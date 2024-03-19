@@ -11,13 +11,36 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
+import axios from '../../../services/axios';
+import { handleApiErrorMessages } from '../../../services/handleApiErrors';
+
 import UserImage from '../UserImage';
+import Loading from '../../Loading';
 import { Container } from './styles';
 
 export default function Profile({ user }) {
-  const { user: loggedInUser } = useSelector((state) => state.auth);
-  const isLoggedInUser = loggedInUser._id === user._id;
-  const [isFriend, setIsFriend] = useState(false);
+  const loggedUser = useSelector((state) => state.auth.user);
+  const isLoggedUser = loggedUser._id === user._id;
+
+  const [hasFriendship, setHasFriendship] = useState(user.isFriend);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
+
+  const toggleFriend = async () => {
+    setIsLoading(true);
+    let apiErrors = [];
+
+    try {
+      await axios.patch(`/users/${user._id}`);
+
+      setHasFriendship(!hasFriendship);
+    } catch (e) {
+      apiErrors = handleApiErrorMessages(e, '');
+    }
+
+    setErrors(apiErrors);
+    setIsLoading(false);
+  };
 
   return (
     <Container>
@@ -33,16 +56,21 @@ export default function Profile({ user }) {
             <span>{user.friends.length} Amigos</span>
           </div>
         </div>
-        {isLoggedInUser ? (
+        {isLoggedUser ? (
           <Link to={`/edit-profile/${user._id}`} className="profileButton" title="Editar perfil">
             <MdOutlineManageAccounts size={20} />
           </Link>
         ) : (
-          <a className="profileButton" onClick={(e) => e.preventDefault()} title={isFriend ? 'Remover' : 'Adicionar'}>
-            {isFriend ? <MdOutlinePersonRemove size={20} /> : <MdPersonAddAlt size={20} />}
-          </a>
+          (isLoading && <Loading />) || (
+            <a className="profileButton" onClick={() => toggleFriend()}>
+              {hasFriendship ? <MdOutlinePersonRemove size={20} /> : <MdPersonAddAlt size={20} />}
+            </a>
+          )
         )}
       </div>
+      {errors.map((error, index) => (
+        <p key={index}>{error}</p>
+      ))}
       <div className="divider" />
       <ul>
         <li title={`${user.firstName} mora em ${user.location}`}>
@@ -63,21 +91,13 @@ export default function Profile({ user }) {
         </li>
       </ul>
       <div className="divider" />
-      <ul>
-        <h6 className="socialMedia">Redes Sociais</h6>
-        <li title={`Twitter de ${user.firstName}`}>
-          <AiOutlineTwitter size={25} />
-          <a href={`https://twitter.com/${user.twitter}`} target="_blank" rel="noreferrer">
-            Twitter<span>{user.twitter || '@twitter'}</span>
-          </a>
-        </li>
-        <li title={`Linkedin de ${user.firstName}`}>
-          <AiFillLinkedin size={25} />
-          <a href={`https://www.linkedin.com/in/${user.linkedin}`} target="_blank" rel="noreferrer">
-            Linkedin<span>{user.linkedin || 'linked-in'}</span>
-          </a>
-        </li>
-      </ul>
+      <h6>Redes Sociais</h6>
+      <a href={user.twitter} target="_blank" rel="noreferrer">
+        <AiOutlineTwitter size={25} />
+      </a>
+      <a href={user.linkedin} target="_blank" rel="noreferrer">
+        <AiFillLinkedin size={25} />
+      </a>
     </Container>
   );
 }
@@ -95,5 +115,6 @@ Profile.propTypes = {
     impressions: PropTypes.number,
     twitter: PropTypes.string,
     linkedin: PropTypes.string,
+    isFriend: PropTypes.bool,
   }).isRequired,
 };

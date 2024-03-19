@@ -16,7 +16,11 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLoggedIn, isLoading, errors: apiErrors } = useSelector((state) => state.auth);
+  const {
+    isLoggedIn,
+    isLoading,
+    errors: { login: apiErrors },
+  } = useSelector((state) => state.auth);
 
   const handleFormSubmit = (values) => {
     dispatch(actions.loginRequest(values));

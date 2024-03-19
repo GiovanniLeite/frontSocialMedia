@@ -1,11 +1,18 @@
 import PropTypes from 'prop-types';
+import MaskedInput from 'react-text-mask';
 
 import { Container } from './styles';
 
-export default function TextField({ label, id, value, className = '', error, ...rest }) {
+export default function TextField({ label, mask, id, value, className = '', error, ...rest }) {
+  const inputClassName = `${className} ${value ? 'inputFilled' : ''} ${error ? 'inputError' : ''}`;
+
   return (
     <Container>
-      <input id={id} className={`${className} ${value ? 'inputFilled' : ''} ${error ? 'inputError' : ''}`} {...rest} />
+      {mask ? (
+        <MaskedInput mask={mask} guide={false} id={id} className={inputClassName} {...rest} />
+      ) : (
+        <input id={id} className={inputClassName} {...rest} />
+      )}
       <label htmlFor={id}>{label}</label>
       {error && <p>{error}</p>}
     </Container>
@@ -14,6 +21,7 @@ export default function TextField({ label, id, value, className = '', error, ...
 
 TextField.propTypes = {
   label: PropTypes.string.isRequired,
+  mask: PropTypes.array,
   id: PropTypes.string.isRequired,
   value: PropTypes.string,
   className: PropTypes.string,

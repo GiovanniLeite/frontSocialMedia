@@ -25,8 +25,8 @@ export const formValidation = {
     lastName: yup.string().min(3, MIN_LENGTH_ERROR).max(50, MAX_LENGTH_ERROR).required(REQUIRED_FIELD_ERROR),
     location: yup.string().min(3, MIN_LENGTH_ERROR).max(50, MAX_LENGTH_ERROR).required(REQUIRED_FIELD_ERROR),
     occupation: yup.string().min(3, MIN_LENGTH_ERROR).max(50, MAX_LENGTH_ERROR).required(REQUIRED_FIELD_ERROR),
-    twitter: yup.string().max(20, MAX_LENGTH_ERROR),
-    linkedin: yup.string().max(20, MAX_LENGTH_ERROR),
+    twitter: yup.string().max(50, MAX_LENGTH_ERROR),
+    linkedin: yup.string().max(50, MAX_LENGTH_ERROR),
     email: yup.string().email(INVALID_EMAIL_ERROR).required(REQUIRED_FIELD_ERROR),
     password: yup
       .string()

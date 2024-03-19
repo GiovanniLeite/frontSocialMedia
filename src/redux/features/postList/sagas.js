@@ -8,10 +8,9 @@ import { postListActions as actions } from './slice';
 
 export function* getPostList(action) {
   const { userId } = action.payload;
-  const query = userId ? `user-posts/${userId}` : 'all-posts';
 
   try {
-    const { data } = yield call(axios.get, `/posts/${query}`);
+    const { data } = yield call(axios.get, `/posts/${userId ? userId : undefined}`);
     const errors = data.length === 0 ? [NO_DATA_ERROR] : [];
 
     yield put(actions.setPostList({ posts: data, errors }));

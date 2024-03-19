@@ -16,7 +16,11 @@ export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLoggedIn, isLoading, errors: apiErrors } = useSelector((state) => state.auth);
+  const {
+    isLoggedIn,
+    isLoading,
+    errors: { register: apiErrors },
+  } = useSelector((state) => state.auth);
 
   const handleFormSubmit = (values) => {
     dispatch(actions.registerRequest(values));
@@ -84,28 +88,28 @@ export default function Register() {
                   error={touched.occupation && errors.occupation}
                   disabled={isLoading}
                 />
-                <div className="doubleText">
-                  <TextField
-                    label="Twitter/X"
-                    id="twitter"
-                    name="twitter"
-                    value={values.twitter}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={touched.twitter && errors.twitter}
-                    disabled={isLoading}
-                  />
-                  <TextField
-                    label="Linkedin"
-                    id="linkedin"
-                    name="linkedin"
-                    value={values.linkedin}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    error={touched.linkedin && errors.linkedin}
-                    disabled={isLoading}
-                  />
-                </div>
+                <TextField
+                  label="Twitter/X"
+                  mask={['twitter.com/', ...Array(50).fill(/[a-zA-Z0-9-]/)]}
+                  id="twitter"
+                  name="twitter"
+                  value={values.twitter}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  error={touched.twitter && errors.twitter}
+                  disabled={isLoading}
+                />
+                <TextField
+                  label="Linkedin"
+                  mask={['linkedin.com/in/', ...Array(50).fill(/[a-zA-Z0-9-]/)]}
+                  id="linkedin"
+                  name="linkedin"
+                  value={values.linkedin}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  error={touched.linkedin && errors.linkedin}
+                  disabled={isLoading}
+                />
                 <TextField
                   label="Email"
                   id="email"

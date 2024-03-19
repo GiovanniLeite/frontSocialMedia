@@ -14,9 +14,9 @@ export function* registerRequest(action) {
 
     yield put(authActions.loginSuccess({ token, user }));
   } catch (e) {
-    const errors = handleApiErrorMessages(e, 'Esse endereço de email já está em uso');
+    const errorMessages = handleApiErrorMessages(e, 'Esse endereço de email já está em uso');
 
-    yield put(authActions.logout({ errors }));
+    yield put(authActions.logout({ page: 'register', errorMessages }));
   }
 }
 
@@ -27,13 +27,13 @@ export function* loginRequest(action) {
 
     yield put(authActions.loginSuccess({ token, user }));
   } catch (e) {
-    const errors = handleApiErrorMessages(e, [
+    const errorMessages = handleApiErrorMessages(e, [
       'Credenciais inválidas',
       'Email inválido ou Usuário não existe',
       'Senha inválida',
     ]);
 
-    yield put(authActions.logout({ errors }));
+    yield put(authActions.logout({ page: 'login', errorMessages }));
   }
 }
 
