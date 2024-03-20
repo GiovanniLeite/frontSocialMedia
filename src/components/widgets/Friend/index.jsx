@@ -8,9 +8,11 @@ import { handleApiErrorMessages } from '../../../services/handleApiErrors';
 
 import Loading from '../../Loading';
 import UserImage from '../UserImage';
+import Modal from '../../Modal';
 import { Container } from './styles';
 
 export default function Friend({ id, name, subtitle, picturePath, isFriend = false, showFriendshipButton = false }) {
+  const [showModal, setShowModal] = useState(false);
   const [hasFriendship, setHasFriendship] = useState(isFriend);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -32,34 +34,46 @@ export default function Friend({ id, name, subtitle, picturePath, isFriend = fal
   };
 
   return (
-    <Container>
-      <div className="flexBetween">
-        <div className="flexBetween userInfo">
-          <Link to={`/profile/${id}`}>
-            <UserImage image={picturePath} size="40px" userName={name} />
-          </Link>
-          <div>
+    <>
+      <Container>
+        <div className="flexBetween">
+          <div className="flexBetween userInfo">
             <Link to={`/profile/${id}`}>
-              <h5 title={name}>{name}</h5>
+              <UserImage image={picturePath} size="40px" userName={name} />
             </Link>
-            <span title={subtitle}>{subtitle}</span>
+            <div>
+              <Link to={`/profile/${id}`}>
+                <h5 title={name}>{name}</h5>
+              </Link>
+              <span title={subtitle}>{subtitle}</span>
+            </div>
           </div>
+          {showFriendshipButton &&
+            ((isLoading && <Loading />) || (
+              <button
+                title={`${hasFriendship ? 'Remover' : 'Adicionar'} ${name}`}
+                className={hasFriendship ? 'removeFriend' : ''}
+                onClick={() => {
+                  hasFriendship ? setShowModal(true) : toggleFriend();
+                }}
+              >
+                {hasFriendship ? <MdOutlinePersonRemove size={20} /> : <MdPersonAddAlt size={20} />}
+              </button>
+            ))}
         </div>
-        {showFriendshipButton &&
-          ((isLoading && <Loading />) || (
-            <button
-              className={hasFriendship ? 'removeFriend' : ''}
-              onClick={() => toggleFriend()}
-              title={`${hasFriendship ? 'Remover' : 'Adicionar'} ${name}`}
-            >
-              {hasFriendship ? <MdOutlinePersonRemove size={20} /> : <MdPersonAddAlt size={20} />}
-            </button>
-          ))}
-      </div>
-      {errors.map((error, index) => (
-        <p key={index}>{error}</p>
-      ))}
-    </Container>
+        {errors.map((error, index) => (
+          <p key={index}>{error}</p>
+        ))}
+      </Container>
+      {/* MODAL */}
+      <Modal
+        title="Desfazer Amizade"
+        description={`Tem certeza de que você quer remover "${name}" da lista de amigos?`}
+        showModal={showModal}
+        handleCloseModal={() => setShowModal(false)}
+        handleConfirm={() => toggleFriend()}
+      />
+    </>
   );
 }
 

@@ -6,8 +6,8 @@ import { Helmet } from 'react-helmet-async';
 import ProfileWidget from '../../components/widgets/Profile';
 import AdWrapper from '../../components/widgets/AdWrapper';
 import FriendList from '../../components/widgets/FriendList';
-import { Container } from './styles';
 import Posts from '../../components/widgets/Posts';
+import { Container } from './styles';
 
 export default function Home() {
   const { user } = useSelector((state) => state.auth);
