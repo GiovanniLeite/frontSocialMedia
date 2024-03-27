@@ -20,6 +20,12 @@ export const Container = styled.div`
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
+
+          &.highlightContent {
+            font-size: ${theme.font.sizes.large};
+            font-weight: bold;
+            color: ${theme.colors.neutral.dark};
+          }
         }
 
         span {
@@ -32,7 +38,7 @@ export const Container = styled.div`
       }
     }
 
-    button {
+    .userButton {
       cursor: pointer;
       margin-left: ${theme.spacings.small};
       padding: ${theme.spacings.extraSmall};
@@ -45,8 +51,12 @@ export const Container = styled.div`
         color: ${theme.colors.primary.dark};
       }
 
-      &:hover {
-        background-color: ${theme.colors.neutral.light};
+      &.editButton {
+        background-color: ${theme.colors.background.alt};
+
+        svg {
+          color: ${theme.colors.neutral.dark};
+        }
       }
 
       &.removeFriend:hover {
@@ -54,11 +64,14 @@ export const Container = styled.div`
           color: ${theme.colors.error};
         }
       }
+
+      &:hover {
+        background-color: ${theme.colors.neutral.light};
+      }
     }
 
     p {
-      color: ${theme.colors.neutral.dark};
-      border-bottom: 1px solid ${theme.colors.neutral.dark};
+      color: ${theme.colors.error};
     }
   `}
 `;

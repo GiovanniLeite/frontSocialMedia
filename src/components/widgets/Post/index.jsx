@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postListActions as actions } from '../../../redux/features/postList/slice';
 import { API_URL } from '../../../constants/appConfig';
 
-import Friend from '../Friend';
+import UserInfo from '../UserInfo';
 import { Container } from './styles';
 
 export default function Post({ post }) {
@@ -38,12 +38,13 @@ export default function Post({ post }) {
 
   return (
     <Container>
-      <Friend
+      <UserInfo
         key={userId}
         id={userId}
         name={`${firstName} ${lastName}`}
         subtitle={location}
         picturePath={userPicturePath}
+        pictureSize="40px"
       />
       <p>{description}</p>
       {picturePath && <img className="postImage" src={`${API_URL}images/posts/${picturePath}`} alt="post" />}

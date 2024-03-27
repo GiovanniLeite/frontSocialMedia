@@ -9,45 +9,7 @@ export const Container = styled.section`
     width: 100%;
     align-self: start;
 
-    .userInfo {
-      max-width: calc(100% - 40px);
-
-      div {
-        max-width: calc(100% - 70px);
-      }
-    }
-
-    a {
-      cursor: pointer;
-      color: ${theme.colors.neutral.main};
-
-      h4 {
-        color: ${theme.colors.neutral.dark};
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-
-    span {
-      display: block;
-      color: ${theme.colors.neutral.medium};
-    }
-
-    .profileButton {
-      margin-left: ${theme.spacings.small};
-      padding: ${theme.spacings.extraSmall};
-      border-radius: 50%;
-      display: flex;
-
-      &:hover {
-        background-color: ${theme.colors.neutral.light};
-      }
-    }
-
     ul {
-      list-style: none;
-
       li {
         display: flex;
         align-items: center;
@@ -58,21 +20,25 @@ export const Container = styled.section`
           color: ${theme.colors.neutral.main};
         }
       }
-    }
 
-    .userNumbers {
-      li + li {
-        margin-top: ${theme.spacings.extraSmall};
-      }
+      &.userNumbers {
+        li + li {
+          margin-top: ${theme.spacings.extraSmall};
+        }
 
-      span {
-        color: ${theme.colors.neutral.main};
+        span {
+          color: ${theme.colors.neutral.main};
+        }
       }
     }
 
     h6 {
       font-weight: 400;
       margin-bottom: ${theme.spacings.extraSmall};
+    }
+
+    a {
+      color: ${theme.colors.neutral.main};
     }
   `}
 `;

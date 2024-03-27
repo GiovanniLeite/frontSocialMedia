@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { friendListActions as actions } from '../../../redux/features/friendList/slice';
 
-import Friend from '../Friend';
+import UserInfo from '../UserInfo';
 import Loading from '../../Loading';
 import { Container } from './styles';
 
@@ -29,14 +29,15 @@ export default function FriendList({ userId, length = 6 }) {
         list
           .slice(0, length)
           .map((friend) => (
-            <Friend
+            <UserInfo
               key={friend._id}
               id={friend._id}
               name={`${friend.firstName} ${friend.lastName}`}
               subtitle={friend.occupation}
               picturePath={friend.picturePath}
+              pictureSize="40px"
               isFriend={friend.isFriend}
-              showFriendshipButton={true}
+              showButton={true}
             />
           ))}
     </Container>

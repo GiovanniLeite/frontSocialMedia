@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 import { API_URL } from '../../../constants/appConfig';
 
-export default function UserImage({ image, size = '60px', userName }) {
+export default function UserImage({ image, size, userName }) {
   return (
     <img
       src={image ? `${API_URL}images/user-profile/${image}` : `${API_URL}assets/default-avatar.png`}
@@ -17,6 +17,6 @@ export default function UserImage({ image, size = '60px', userName }) {
 
 UserImage.propTypes = {
   image: PropTypes.string.isRequired,
-  size: PropTypes.string,
+  size: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
 };
