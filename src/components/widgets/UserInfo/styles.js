@@ -21,7 +21,7 @@ export const Container = styled.div`
           white-space: nowrap;
           text-overflow: ellipsis;
 
-          &.highlightContent {
+          &.largeName {
             font-size: ${theme.font.sizes.large};
             font-weight: bold;
             color: ${theme.colors.neutral.dark};
@@ -49,14 +49,6 @@ export const Container = styled.div`
 
       svg {
         color: ${theme.colors.primary.dark};
-      }
-
-      &.editButton {
-        background-color: ${theme.colors.background.alt};
-
-        svg {
-          color: ${theme.colors.neutral.dark};
-        }
       }
 
       &.removeFriend:hover {

@@ -1,15 +1,24 @@
 import PropTypes from 'prop-types';
+import { useMediaQuery } from '@react-hook/media-query';
 
 import { API_URL } from '../../../constants/appConfig';
 
-export default function UserImage({ image, size, userName }) {
+import { Image } from './styles';
+
+export default function UserImage({ image, userName, size, altSize, breakpoint }) {
+  const screenSize = useMediaQuery(`(max-width: ${breakpoint}px)`);
+  let imageSize = size;
+
+  if (breakpoint && screenSize) {
+    imageSize = screenSize && breakpoint ? altSize : size;
+  }
+
   return (
-    <img
+    <Image
       src={image ? `${API_URL}images/user-profile/${image}` : `${API_URL}assets/default-avatar.png`}
       alt={userName}
-      style={{ objectFit: 'cover', borderRadius: '50%', marginRight: '1rem' }}
-      width={size}
-      height={size}
+      width={imageSize}
+      height={imageSize}
       title={userName}
     />
   );
@@ -17,6 +26,8 @@ export default function UserImage({ image, size, userName }) {
 
 UserImage.propTypes = {
   image: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  altSize: PropTypes.number,
+  breakpoint: PropTypes.number,
 };

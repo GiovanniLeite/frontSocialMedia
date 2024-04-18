@@ -44,7 +44,7 @@ export default function Post({ post }) {
         name={`${firstName} ${lastName}`}
         subtitle={location}
         picturePath={userPicturePath}
-        pictureSize="40px"
+        pictureSize={40}
       />
       <p>{description}</p>
       {picturePath && <img className="postImage" src={`${API_URL}images/posts/${picturePath}`} alt="post" />}

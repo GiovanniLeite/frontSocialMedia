@@ -1,12 +1,12 @@
+import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
-import { Helmet } from 'react-helmet-async';
 
-import ProfileWidget from '../../components/widgets/Profile';
+import ProfileAlternative from '../../components/widgets/ProfileAlternative';
+import Posts from '../../components/widgets/Posts';
 import AdWrapper from '../../components/widgets/AdWrapper';
 import FriendList from '../../components/widgets/FriendList';
-import Posts from '../../components/widgets/Posts';
 import { Container } from './styles';
 
 export default function Home() {
@@ -39,7 +39,7 @@ export default function Home() {
       </Helmet>
       <Container>
         <div className="controledWidth">
-          <ProfileWidget user={user} />
+          <ProfileAlternative user={user} isLoggedUser={true} showInfo={true} />
           <Posts />
           {!isMobile && (
             <section className="rightSection">

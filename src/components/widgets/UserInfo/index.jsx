@@ -14,13 +14,12 @@ import { Container } from './styles';
 export default function UserInfo({
   id,
   name,
+  largeName = false,
   subtitle,
   picturePath,
   pictureSize,
-  isFriend = false,
   showButton = false,
-  highlightContent = false,
-  isLoggedUser = false,
+  isFriend = false,
 }) {
   const [showModal, setShowModal] = useState(false);
   const [hasFriendship, setHasFriendship] = useState(isFriend);
@@ -51,9 +50,10 @@ export default function UserInfo({
             <Link to={`/profile/${id}`}>
               <UserImage image={picturePath} size={pictureSize} userName={name} />
             </Link>
+
             <div>
               <Link to={`/profile/${id}`}>
-                <h5 className={highlightContent ? 'highlightContent' : ''} title={name}>
+                <h5 className={largeName ? 'largeName' : ''} title={name}>
                   {name}
                 </h5>
               </Link>
@@ -62,22 +62,16 @@ export default function UserInfo({
           </div>
 
           {showButton &&
-            (isLoggedUser ? (
-              <Link to={`/edit-profile/${id}`} className="userButton editButton" title="Editar perfil">
-                <MdOutlineManageAccounts size={20} />
-              </Link>
-            ) : (
-              (isLoading && <Loading />) || (
-                <button
-                  title={`${hasFriendship ? 'Remover' : 'Adicionar'} ${name}`}
-                  className={`userButton ${hasFriendship ? 'removeFriend' : ''}`}
-                  onClick={() => {
-                    hasFriendship ? setShowModal(true) : toggleFriend();
-                  }}
-                >
-                  {hasFriendship ? <MdOutlinePersonRemove size={20} /> : <MdPersonAddAlt size={20} />}
-                </button>
-              )
+            ((isLoading && <Loading />) || (
+              <button
+                title={`${hasFriendship ? 'Remover' : 'Adicionar'} ${name}`}
+                className={`userButton ${hasFriendship ? 'removeFriend' : ''}`}
+                onClick={() => {
+                  hasFriendship ? setShowModal(true) : toggleFriend();
+                }}
+              >
+                {hasFriendship ? <MdOutlinePersonRemove size={20} /> : <MdPersonAddAlt size={20} />}
+              </button>
             ))}
         </div>
         {errors.map((error, index) => (
@@ -99,11 +93,11 @@ export default function UserInfo({
 UserInfo.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  largeName: PropTypes.bool,
   subtitle: PropTypes.string.isRequired,
   picturePath: PropTypes.string.isRequired,
-  pictureSize: PropTypes.string.isRequired,
-  isFriend: PropTypes.bool,
+  pictureSize: PropTypes.number.isRequired,
+  titleSize: PropTypes.string,
   showButton: PropTypes.bool,
-  highlightContent: PropTypes.bool,
-  isLoggedUser: PropTypes.bool,
+  isFriend: PropTypes.bool,
 };

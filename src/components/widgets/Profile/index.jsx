@@ -1,57 +1,147 @@
-import { MdOutlineLocationOn, MdWorkOutline } from 'react-icons/md';
-import { AiOutlineTwitter, AiFillLinkedin } from 'react-icons/ai';
+import {
+  MdMessage,
+  MdOutlineManageAccounts,
+  MdOutlineMoreHoriz,
+  MdOutlinePeopleAlt,
+  MdOutlinePersonRemove,
+  MdOutlineSettings,
+  MdPersonAddAlt,
+} from 'react-icons/md';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 
-import UserInfo from '../UserInfo';
+import UserImage from '../UserImage';
 import { Container } from './styles';
 
-export default function Profile({ user }) {
-  const loggedUser = useSelector((state) => state.auth.user);
-  const isLoggedUser = loggedUser._id === user._id;
+export default function Profile({ user, isLoggedUser, tab, handleTabs }) {
+  const { list } = useSelector((state) => state.friendList);
+  // const list = [];
+
   const name = `${user.firstName} ${user.lastName}`;
+  const coverPath = 'http://localhost:3001/images/posts/1711735862193_13757.jpg';
+  const isFriend = true;
+
+  const [showAltMenu, setShowAltMenu] = useState(false);
+
+  const handleMenu = async (tab) => {
+    handleTabs(tab);
+    setShowAltMenu(false);
+  };
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      // Check if the window width exceeds 480px
+      // if it does, hide the alt menu in case it's open
+      window.innerWidth > 480 && setShowAltMenu(false);
+    };
+
+    const debouncedResizeHandler = debounce(handleWindowResize, 300);
+
+    window.addEventListener('resize', debouncedResizeHandler);
+
+    // Cleanup function to remove the resize event listener
+    return () => {
+      window.removeEventListener('resize', debouncedResizeHandler);
+    };
+  }, []);
 
   return (
     <Container>
-      <UserInfo
-        key={user._id}
-        id={user._id}
-        name={name}
-        subtitle={`${user.friends.length} Amigos`}
-        picturePath={user.picturePath}
-        pictureSize="60px"
-        isFriend={user.isFriend}
-        showButton={true}
-        highlightContent={true}
-        isLoggedUser={isLoggedUser}
-      />
-      <div className="divider" />
-      <ul>
-        <li title={`${name} mora em ${user.location}`}>
-          <MdOutlineLocationOn size={25} />
-          {user.location}
+      <div className="profileCover">
+        <img src={coverPath} alt={`${name} cover`} />
+        {isLoggedUser && (
+          <button className="expandingButton" onClick={() => console.log('Editar capa')}>
+            <MdOutlineSettings size={20} /> <span>Editar capa</span>
+          </button>
+        )}
+      </div>
+      <div className="mainInfo">
+        <UserImage image={user.picturePath} userName={name} size={150} altSize={120} breakpoint={600} />
+        <div className="userInfo">
+          <h5 title={name}>{name}</h5>
+          <span title="Amigos">{`${user.friends.length} Amigos`}</span>
+          <div className="friends">
+            {list.length ? (
+              list.slice(0, 5).map((friend) => (
+                <Link key={friend._id} to={`/edit-profile/${friend._id}`}>
+                  <UserImage
+                    className="userImage"
+                    image={friend.picturePath}
+                    size={32}
+                    userName={`${friend.firstName} ${friend.lastName}`}
+                  />
+                </Link>
+              ))
+            ) : (
+              <Link to="/search-friends" className="expandingButton searchFriends">
+                <MdOutlinePeopleAlt size={25} />
+                <span>Encontre seus amigos</span>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="helperBtnsWrapper">
+        {isLoggedUser ? (
+          <button title="Editar Perfil" onClick={() => handleMenu(4)}>
+            <MdOutlineManageAccounts size={20} />
+            Editar
+          </button>
+        ) : (
+          <button title={`${isFriend ? 'Remover' : 'Adicionar'} ${name}`} onClick={() => console.log('Amigo')}>
+            {isFriend ? (
+              <>
+                <MdOutlinePersonRemove size={20} /> Remover
+              </>
+            ) : (
+              <>
+                <MdPersonAddAlt size={20} /> Adicionar
+              </>
+            )}
+          </button>
+        )}
+        <button className="coloredButton" onClick={() => console.log('Mensagem')}>
+          <MdMessage size={20} /> <span>Mensagem</span>
+        </button>
+      </div>
+      <ul className="defaultMenu">
+        <li>
+          <button className={tab === 0 ? 'active' : ''} onClick={() => handleMenu(0)}>
+            Publicações
+          </button>
         </li>
-        <li title={`${name} trabalha como ${user.occupation}`}>
-          <MdWorkOutline size={25} /> {user.occupation}
+        <li>
+          <button className={tab === 1 ? 'active' : ''} onClick={() => handleMenu(1)}>
+            Fotos
+          </button>
+        </li>
+        <li>
+          <button className={tab === 2 ? 'active' : ''} onClick={() => handleMenu(2)}>
+            Amigos
+          </button>
+        </li>
+        <li>
+          <button className={tab === 3 ? 'active' : ''} onClick={() => handleMenu(3)}>
+            Notificações
+          </button>
+        </li>
+        <li>
+          <button className="arrowButton" onClick={() => setShowAltMenu(!showAltMenu)}>
+            <MdOutlineMoreHoriz size={16} />
+          </button>
         </li>
       </ul>
-      <div className="divider" />
-      <ul className="userNumbers">
-        <li className="flexBetween" title="Quantas pessoas viram seu perfil">
-          Quem viu o seu perfil <span>{user.viewedProfile}</span>
+      <ul className={`altMenu ${showAltMenu ? 'showAltMenu' : ''}`}>
+        <li>
+          <button onClick={() => handleMenu(2)}>Amigos</button>
         </li>
-        <li className="flexBetween" title="Quantas pessoas viram seus posts">
-          Impressões dos seus posts <span>{user.impressions}</span>
+        <li>
+          <button onClick={() => handleMenu(3)}>Notificações</button>
         </li>
       </ul>
-      <div className="divider" />
-      <h6>Redes Sociais</h6>
-      <a href={user.twitter} target="_blank" rel="noreferrer">
-        <AiOutlineTwitter size={25} />
-      </a>
-      <a href={user.linkedin} target="_blank" rel="noreferrer">
-        <AiFillLinkedin size={25} />
-      </a>
     </Container>
   );
 }
@@ -71,4 +161,7 @@ Profile.propTypes = {
     linkedin: PropTypes.string,
     isFriend: PropTypes.bool,
   }).isRequired,
+  isLoggedUser: PropTypes.bool.isRequired,
+  tab: PropTypes.number.isRequired,
+  handleTabs: PropTypes.func.isRequired,
 };

@@ -35,7 +35,7 @@ export default function FriendList({ userId, length = 6 }) {
               name={`${friend.firstName} ${friend.lastName}`}
               subtitle={friend.occupation}
               picturePath={friend.picturePath}
-              pictureSize="40px"
+              pictureSize={40}
               isFriend={friend.isFriend}
               showButton={true}
             />

@@ -3,24 +3,41 @@ import styled, { css } from 'styled-components';
 export const Container = styled.main`
   ${({ theme }) => css`
     padding: 9.4rem 0 ${theme.spacings.medium};
+    z-index: 1;
 
     .controledWidth {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
       gap: ${theme.spacings.medium};
 
       @media (max-width: 1000px) {
         grid-template-columns: 1fr;
+        gap: 0;
       }
 
-      .errorProfile {
-        color: ${theme.colors.neutral.dark};
+      section {
+        overflow: hidden;
+
+        .bottomContent {
+          display: none;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+          gap: ${theme.spacings.medium};
+          padding-top: ${theme.spacings.medium};
+
+          &.activeContent {
+            display: grid;
+          }
+        }
       }
 
-      & > div {
+      .vertAlign {
         display: flex;
         flex-direction: column;
         gap: ${theme.spacings.medium};
+
+        @media screen and (max-width: 460px) {
+          /* display: none; */
+        }
       }
     }
   `}

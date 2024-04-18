@@ -83,7 +83,7 @@ export default function NewPost({ page }) {
   return (
     <Container>
       <div className="flexBetween">
-        <UserImage image={userPicture} size="50px" userName={firstName} />
+        <UserImage image={userPicture} size={50} userName={firstName} />
         <input
           className="newPost"
           value={text}

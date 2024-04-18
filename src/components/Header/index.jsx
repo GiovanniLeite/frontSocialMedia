@@ -47,10 +47,10 @@ export default function Header() {
     console.log('Search');
   };
 
-  const handle = async (e) => {
+  const handleMenu = async (e) => {
     e.preventDefault();
 
-    console.log('handle');
+    setShowMenu(false);
   };
 
   const toggleThemeMode = async (e) => {
@@ -82,10 +82,10 @@ export default function Header() {
           <a onClick={(e) => toggleThemeMode(e)}>
             {mode === 'light' ? <MdLightMode size={20} title="Claro" /> : <MdDarkMode size={20} title="Escuro" />}
           </a>
-          <a onClick={(e) => handle(e)} title="Mensagens">
+          <a onClick={(e) => handleMenu(e)} title="Mensagens">
             <MdMessage size={20} />
           </a>
-          <a onClick={(e) => handle(e)} title="Notificações">
+          <a onClick={(e) => handleMenu(e)} title="Notificações">
             <MdNotifications size={20} />
           </a>
           {user ? (
@@ -107,7 +107,7 @@ export default function Header() {
           </a>
         </div>
 
-        <ul className={showMenu ? 'menuMobile showMenuMobile' : 'menuMobile'}>
+        <ul className={`menuMobile ${showMenu ? 'showMenuMobile' : ''}`}>
           <li>
             <form>
               <input type="text" placeholder="Procurar..." />
@@ -115,7 +115,11 @@ export default function Header() {
             </form>
           </li>
           <li>
-            <a onClick={(e) => toggleThemeMode(e)}>
+            <a
+              onClick={(e) => {
+                toggleThemeMode(e), handleMenu(e);
+              }}
+            >
               {mode === 'light' ? (
                 <>
                   <MdDarkMode size={20} title="Escuro" /> Escuro
@@ -128,12 +132,12 @@ export default function Header() {
             </a>
           </li>
           <li>
-            <a onClick={(e) => handle(e)} title="Mensagens">
+            <a onClick={(e) => handleMenu(e)} title="Mensagens">
               <MdMessage size={20} /> Mensagens
             </a>
           </li>
           <li>
-            <a onClick={(e) => handle(e)} title="Notificações">
+            <a onClick={(e) => handleMenu(e)} title="Notificações">
               <MdNotifications size={20} /> Notificações
             </a>
           </li>
