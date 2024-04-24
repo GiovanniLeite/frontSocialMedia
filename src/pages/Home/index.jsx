@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
-import ProfileAlternative from '../../components/widgets/ProfileAlternative';
+import ProfileWidget from '../../components/widgets/ProfileWidget';
 import Posts from '../../components/widgets/Posts';
 import AdWrapper from '../../components/widgets/AdWrapper';
 import FriendList from '../../components/widgets/FriendList';
@@ -39,7 +39,7 @@ export default function Home() {
       </Helmet>
       <Container>
         <div className="controledWidth">
-          <ProfileAlternative user={user} isLoggedUser={true} showInfo={true} />
+          <ProfileWidget user={user} isLoggedUser={true} showInfo={true} />
           <Posts />
           {!isMobile && (
             <section className="rightSection">

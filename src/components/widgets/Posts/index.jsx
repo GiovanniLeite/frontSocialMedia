@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postListActions as actions } from '../../../redux/features/postList/slice';
 
 import Loading from '../../Loading';
-import NewPost from '../NewPost';
-import Post from '../Post';
+import NewPost from '../../Posts/NewPost';
+import Post from '../../Posts/Post';
 import { Container } from './styles';
 
 export default function Posts({ userId = '' }) {

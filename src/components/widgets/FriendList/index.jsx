@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { friendListActions as actions } from '../../../redux/features/friendList/slice';
 
-import UserInfo from '../UserInfo';
+import UserInfo from '../../UserInfo';
 import Loading from '../../Loading';
 import { Container } from './styles';
 

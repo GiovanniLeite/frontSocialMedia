@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.section`
+export const Container = styled.div`
   ${({ theme }) => css`
     border-radius: 0.7rem;
     background-color: ${theme.colors.background.alt};

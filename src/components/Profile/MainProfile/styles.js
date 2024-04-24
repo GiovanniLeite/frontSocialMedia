@@ -6,6 +6,8 @@ export const Container = styled.section`
     background-color: ${theme.colors.background.alt};
     z-index: 1;
     position: relative;
+    overflow: hidden;
+    align-self: start;
 
     button {
       cursor: pointer;
@@ -39,6 +41,7 @@ export const Container = styled.section`
 
     .profileCover {
       position: relative;
+
       z-index: 2;
 
       img {
@@ -265,8 +268,10 @@ export const Container = styled.section`
       padding: ${theme.spacings.extraSmall};
       transition: 0.3s;
       z-index: 2;
+      display: none;
 
       &.showAltMenu {
+        display: block;
         bottom: 5rem;
       }
 

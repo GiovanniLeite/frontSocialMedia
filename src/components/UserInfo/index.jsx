@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { MdOutlineManageAccounts, MdOutlinePersonRemove, MdPersonAddAlt } from 'react-icons/md';
 import { useState } from 'react';
 
-import axios from '../../../services/axios';
-import { handleApiErrorMessages } from '../../../services/handleApiErrors';
+import axios from '../../services/axios';
+import { handleApiErrorMessages } from '../../services/handleApiErrors';
 
-import Loading from '../../Loading';
+import Loading from '../Loading';
 import UserImage from '../UserImage';
-import Modal from '../../Modal';
+import Modal from '../Modal';
 import { Container } from './styles';
 
 export default function UserInfo({

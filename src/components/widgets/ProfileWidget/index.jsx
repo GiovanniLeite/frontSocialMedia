@@ -2,10 +2,10 @@ import { MdOutlineLocationOn, MdWorkOutline } from 'react-icons/md';
 import { AiOutlineTwitter, AiFillLinkedin } from 'react-icons/ai';
 import PropTypes from 'prop-types';
 
-import UserInfo from '../UserInfo';
+import UserInfo from '../../UserInfo';
 import { Container } from './styles';
 
-export default function ProfileAlternative({ user, isLoggedUser, showInfo }) {
+export default function ProfileWidget({ user, isLoggedUser, showInfo }) {
   const name = `${user.firstName} ${user.lastName}`;
 
   return (
@@ -54,7 +54,7 @@ export default function ProfileAlternative({ user, isLoggedUser, showInfo }) {
   );
 }
 
-ProfileAlternative.propTypes = {
+ProfileWidget.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string,
     firstName: PropTypes.string,

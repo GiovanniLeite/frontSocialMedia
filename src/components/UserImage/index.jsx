@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useMediaQuery } from '@react-hook/media-query';
 
-import { API_URL } from '../../../constants/appConfig';
+import { API_URL } from '../../constants/appConfig';
 
 import { Image } from './styles';
 

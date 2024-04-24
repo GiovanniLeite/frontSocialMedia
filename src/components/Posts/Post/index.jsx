@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { postListActions as actions } from '../../../redux/features/postList/slice';
 import { API_URL } from '../../../constants/appConfig';
 
-import UserInfo from '../UserInfo';
+import UserInfo from '../../UserInfo';
 import { Container } from './styles';
 
 export default function Post({ post }) {

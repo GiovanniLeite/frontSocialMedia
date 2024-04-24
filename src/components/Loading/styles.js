@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.section`
+export const Container = styled.div`
   ${({ theme }) => css`
     .loading {
       animation: is-rotating 1s infinite;

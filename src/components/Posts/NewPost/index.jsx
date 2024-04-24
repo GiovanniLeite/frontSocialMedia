@@ -17,7 +17,7 @@ import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
 import { postListActions as actions } from '../../../redux/features/postList/slice';
 
-import UserImage from '../UserImage';
+import UserImage from '../../UserImage';
 import Loading from '../../Loading';
 import { Container } from './styles';
 

@@ -13,16 +13,23 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
-import UserImage from '../UserImage';
+import UserImage from '../../UserImage';
 import { Container } from './styles';
 
-export default function Profile({ user, isLoggedUser, tab, handleTabs }) {
+export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
   const { list } = useSelector((state) => state.friendList);
   // const list = [];
 
   const name = `${user.firstName} ${user.lastName}`;
   const coverPath = 'http://localhost:3001/images/posts/1711735862193_13757.jpg';
   const isFriend = true;
+
+  const menuItems = [
+    { id: 0, label: 'Publicações' },
+    { id: 1, label: 'Fotos' },
+    { id: 2, label: 'Amigos' },
+    { id: 3, label: 'Notificações' },
+  ];
 
   const [showAltMenu, setShowAltMenu] = useState(false);
 
@@ -108,26 +115,13 @@ export default function Profile({ user, isLoggedUser, tab, handleTabs }) {
         </button>
       </div>
       <ul className="defaultMenu">
-        <li>
-          <button className={tab === 0 ? 'active' : ''} onClick={() => handleMenu(0)}>
-            Publicações
-          </button>
-        </li>
-        <li>
-          <button className={tab === 1 ? 'active' : ''} onClick={() => handleMenu(1)}>
-            Fotos
-          </button>
-        </li>
-        <li>
-          <button className={tab === 2 ? 'active' : ''} onClick={() => handleMenu(2)}>
-            Amigos
-          </button>
-        </li>
-        <li>
-          <button className={tab === 3 ? 'active' : ''} onClick={() => handleMenu(3)}>
-            Notificações
-          </button>
-        </li>
+        {menuItems.map((item) => (
+          <li key={item.id}>
+            <button className={tab === item.id ? 'active' : ''} onClick={() => handleMenu(item.id)}>
+              {item.label}
+            </button>
+          </li>
+        ))}
         <li>
           <button className="arrowButton" onClick={() => setShowAltMenu(!showAltMenu)}>
             <MdOutlineMoreHoriz size={16} />
@@ -146,7 +140,7 @@ export default function Profile({ user, isLoggedUser, tab, handleTabs }) {
   );
 }
 
-Profile.propTypes = {
+MainProfile.propTypes = {
   user: PropTypes.shape({
     _id: PropTypes.string,
     firstName: PropTypes.string,

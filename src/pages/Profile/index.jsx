@@ -7,12 +7,16 @@ import axios from '../../services/axios';
 import { handleApiErrorMessages } from '../../services/handleApiErrors';
 import { USER_NOT_FOUND_ERROR } from '../../constants/errorMessages';
 
-import ProfileMain from '../../components/widgets/Profile';
-import ProfileAlternative from '../../components/widgets/ProfileAlternative';
-import FriendList from '../../components/widgets/FriendList';
-import Posts from '../../components/widgets/Posts';
-import AdWrapper from '../../components/widgets/AdWrapper';
 import Loading from '../../components/Loading';
+import MainProfile from '../../components/Profile/MainProfile';
+import Publications from '../../components/Profile/Tabs/Publications';
+import Pictures from '../../components/Profile/Tabs/Pictures';
+import Friends from '../../components/Profile/Tabs/Friends';
+import Notifications from '../../components/Profile/Tabs/Notifications';
+import Edit from '../../components/Profile/Tabs/Edit';
+import AdWrapper from '../../components/widgets/AdWrapper';
+import FriendList from '../../components/widgets/FriendList';
+
 import { Container } from './styles';
 
 export default function Profile() {
@@ -52,6 +56,23 @@ export default function Profile() {
     getData();
   }, [id]);
 
+  const renderTab = () => {
+    switch (tab) {
+      case 0:
+        return <Publications user={user} isLoggedUser={isLoggedUser} />;
+      case 1:
+        return <Pictures />;
+      case 2:
+        return <Friends />;
+      case 3:
+        return <Notifications />;
+      case 4:
+        return <Edit />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -59,34 +80,21 @@ export default function Profile() {
       </Helmet>
       <Container>
         <div className="controledWidth">
-          {(isLoading && <Loading />) || (
+          {isLoading ? (
+            <Loading />
+          ) : (
             <>
-              <section>
-                <ProfileMain user={user} isLoggedUser={isLoggedUser} tab={tab} handleTabs={setTab} />
-                <div className={`bottomContent ${tab === 0 ? 'activeContent' : ''}`}>
-                  <div className="vertAlign">
-                    <ProfileAlternative user={user} isLoggedUser={isLoggedUser} showInfo={false} />
-                    <FriendList userId={user._id} />
-                  </div>
-                  <Posts userId={user._id} />
-                </div>
-                <div className={`bottomContent ${tab === 1 ? 'activeContent' : ''}`}>
-                  <h2>Fotos</h2>
-                </div>
-                <div className={`bottomContent ${tab === 2 ? 'activeContent' : ''}`}>
-                  <FriendList userId={user._id} />
-                </div>
-                <div className={`bottomContent ${tab === 3 ? 'activeContent' : ''}`}>
-                  <h2>Notificações</h2>
-                </div>
-                <div className={`bottomContent ${tab === 4 ? 'activeContent' : ''}`}>
-                  <h2>Editar</h2>
-                </div>
+              {/* Main section */}
+              <section className="mainSection">
+                <MainProfile user={user} isLoggedUser={isLoggedUser} tab={tab} handleTabs={setTab} />
+                {renderTab()}
               </section>
-              <div className="vertAlign">
+
+              {/* Sidebar section */}
+              <section className="aside">
                 <AdWrapper />
                 <FriendList userId={user._id} />
-              </div>
+              </section>
             </>
           )}
         </div>

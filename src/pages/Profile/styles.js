@@ -12,31 +12,22 @@ export const Container = styled.main`
 
       @media (max-width: 1000px) {
         grid-template-columns: 1fr;
-        gap: 0;
       }
 
-      section {
-        overflow: hidden;
-
-        .bottomContent {
-          display: none;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-          gap: ${theme.spacings.medium};
-          padding-top: ${theme.spacings.medium};
-
-          &.activeContent {
-            display: grid;
-          }
-        }
-      }
-
-      .vertAlign {
-        display: flex;
-        flex-direction: column;
+      .mainSection,
+      .aside {
+        display: grid;
         gap: ${theme.spacings.medium};
+        align-self: start;
+      }
 
-        @media screen and (max-width: 460px) {
-          /* display: none; */
+      .aside {
+        @media (max-width: 1000px) {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (max-width: 550px) {
+          grid-template-columns: 100%;
         }
       }
     }
