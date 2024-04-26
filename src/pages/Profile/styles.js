@@ -23,11 +23,7 @@ export const Container = styled.main`
 
       .aside {
         @media (max-width: 1000px) {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        @media (max-width: 550px) {
-          grid-template-columns: 100%;
+          display: none;
         }
       }
     }
