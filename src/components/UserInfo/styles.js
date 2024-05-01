@@ -13,6 +13,7 @@ export const Container = styled.div`
 
       & > div {
         max-width: calc(100% - 50px);
+        overflow: hidden;
 
         h5 {
           color: ${theme.colors.neutral.main};

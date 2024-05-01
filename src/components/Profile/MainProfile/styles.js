@@ -95,7 +95,7 @@ export const Container = styled.section`
 
         h5 {
           font-size: 3rem;
-          color: ${theme.colors.neutral.main};
+          color: ${theme.colors.neutral.dark};
           font-weight: 500;
           padding-top: ${theme.spacings.large};
           overflow: hidden;

@@ -73,7 +73,7 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
           <div className="friends">
             {list.length ? (
               list.slice(0, 5).map((friend) => (
-                <Link key={friend._id} to={`/edit-profile/${friend._id}`}>
+                <Link key={friend._id} to={`/profile/${friend._id}`}>
                   <UserImage
                     className="userImage"
                     image={friend.picturePath}

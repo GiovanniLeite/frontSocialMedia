@@ -25,7 +25,7 @@ export const Container = styled.section`
       }
 
       @media (max-width: 400px) {
-        grid-template-columns: 100%;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
       }
     }
   `}

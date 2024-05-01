@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { MdOutlineManageAccounts, MdOutlinePersonRemove, MdPersonAddAlt } from 'react-icons/md';
+import { MdOutlinePersonRemove, MdPersonAddAlt } from 'react-icons/md';
 import { useState } from 'react';
 
 import axios from '../../services/axios';
