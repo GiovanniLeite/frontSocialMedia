@@ -11,6 +11,7 @@ const initialState = {
   errors: {
     login: [],
     register: [],
+    update: [],
   },
 };
 
