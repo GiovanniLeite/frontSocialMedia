@@ -11,7 +11,7 @@ export default function TextField({ label, mask, id, value, className = '', erro
       {mask ? (
         <MaskedInput mask={mask} guide={false} id={id} className={inputClassName} {...rest} />
       ) : (
-        <input id={id} className={inputClassName} {...rest} />
+        <input id={id} className={inputClassName} value={value} {...rest} />
       )}
       <label htmlFor={id}>{label}</label>
       {error && <p>{error}</p>}

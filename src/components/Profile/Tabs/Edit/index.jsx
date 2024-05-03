@@ -2,26 +2,107 @@ import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
 
 import { formValidation } from './formValidation';
+import { API_URL } from '../../../../constants/appConfig';
 
+import UserImage from '../../../UserImage';
 import TextField from '../../../TextField';
-import { Container } from './styles';
 import Loading from '../../../Loading';
-import FormBox from '../../../FormBox';
+import { Container } from './styles';
 
 export default function Edit() {
   const {
     isLoggedIn,
+    user,
     isLoading,
     errors: { update: apiErrors },
   } = useSelector((state) => state.auth);
+  const coverPath = '1711735862193_13757.jpg';
+  // const coverPath = 'http://localhost:3001/images/posts/1711735862193_13757.jpg';
 
   const handleFormSubmit = (values) => {
-    console.log(values);
+    console.log('foi');
   };
 
   return (
     <Container>
-      <FormBox>
+      <div>
+        <h4>Capa</h4>
+        <div className="coverDiv">
+          <img src={`${API_URL}images/posts/${coverPath}`} alt={coverPath} title={coverPath} />
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={{ coverPath: coverPath }}
+            validationSchema={formValidation.schema}
+          >
+            {({ values, handleBlur, handleChange, handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  label="Arquivo"
+                  id="coverPath"
+                  name="coverPath"
+                  value={values.coverPath}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  disabled
+                />
+
+                <button
+                  type={isLoading ? 'button' : 'submit'}
+                  className={isLoading ? 'buttonLoading' : ''}
+                  title="Procurar"
+                >
+                  {isLoading ? <Loading /> : 'Procurar'}
+                </button>
+
+                {apiErrors.map((error, index) => (
+                  <p className="errors" key={index}>
+                    {error}
+                  </p>
+                ))}
+              </form>
+            )}
+          </Formik>
+        </div>
+      </div>
+
+      <div>
+        <h4>Foto</h4>
+        <div className="pictureDiv">
+          <UserImage image={user.picturePath} userName={user.firstName} size={80} />
+          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={formValidation.schema}>
+            {({ values, handleBlur, handleChange, handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  label="Arquivo"
+                  id="picturePath"
+                  name="picturePath"
+                  value={values.picturePath}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  disabled
+                />
+
+                <button
+                  type={isLoading ? 'button' : 'submit'}
+                  className={isLoading ? 'buttonLoading' : ''}
+                  title="Procurar"
+                >
+                  {isLoading ? <Loading /> : 'Procurar'}
+                </button>
+
+                {apiErrors.map((error, index) => (
+                  <p className="errors" key={index}>
+                    {error}
+                  </p>
+                ))}
+              </form>
+            )}
+          </Formik>
+        </div>
+      </div>
+
+      <div>
+        <h4>Informações</h4>
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={formValidation.initialValues}
@@ -93,6 +174,27 @@ export default function Edit() {
                 error={touched.linkedin && errors.linkedin}
                 disabled={isLoading}
               />
+              <button
+                type={isLoading ? 'button' : 'submit'}
+                className={isLoading ? 'buttonLoading' : ''}
+                title="Criar Perfil"
+              >
+                {isLoading ? <Loading /> : 'Salvar'}
+              </button>
+            </form>
+          )}
+        </Formik>
+      </div>
+
+      <div>
+        <h4>Email</h4>
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={formValidation.initialValues}
+          validationSchema={formValidation.schema}
+        >
+          {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
               <TextField
                 label="Email"
                 id="email"
@@ -103,6 +205,27 @@ export default function Edit() {
                 error={touched.email && errors.email}
                 disabled={isLoading}
               />
+              <button
+                type={isLoading ? 'button' : 'submit'}
+                className={isLoading ? 'buttonLoading' : ''}
+                title="Criar Perfil"
+              >
+                {isLoading ? <Loading /> : 'Salvar'}
+              </button>
+            </form>
+          )}
+        </Formik>
+      </div>
+
+      <div>
+        <h4>Senha</h4>
+        <Formik
+          onSubmit={handleFormSubmit}
+          initialValues={formValidation.initialValues}
+          validationSchema={formValidation.schema}
+        >
+          {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
               <TextField
                 type="password"
                 label="Senha"
@@ -125,7 +248,6 @@ export default function Edit() {
                 error={touched.passwordConfirm && errors.passwordConfirm}
                 disabled={isLoading}
               />
-
               <button
                 type={isLoading ? 'button' : 'submit'}
                 className={isLoading ? 'buttonLoading' : ''}
@@ -133,16 +255,10 @@ export default function Edit() {
               >
                 {isLoading ? <Loading /> : 'Salvar'}
               </button>
-
-              {/* {apiErrors.map((error, index) => (
-                <p className="errors" key={index}>
-                  {error}
-                </p>
-              ))} */}
             </form>
           )}
         </Formik>
-      </FormBox>
+      </div>
     </Container>
   );
 }
