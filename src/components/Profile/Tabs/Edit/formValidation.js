@@ -8,18 +8,7 @@ import {
   MIN_LENGTH_PASSWORD_ERROR,
 } from '../../../../constants/errorMessages';
 
-export const formValidation = {
-  initialValues: {
-    firstName: '',
-    lastName: '',
-    location: '',
-    occupation: '',
-    twitter: '',
-    linkedin: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  },
+export const infoValidation = {
   schema: yup.object().shape({
     firstName: yup.string().min(3, MIN_LENGTH_ERROR).max(50, MAX_LENGTH_ERROR).required(REQUIRED_FIELD_ERROR),
     lastName: yup.string().min(3, MIN_LENGTH_ERROR).max(50, MAX_LENGTH_ERROR).required(REQUIRED_FIELD_ERROR),
@@ -27,7 +16,21 @@ export const formValidation = {
     occupation: yup.string().min(3, MIN_LENGTH_ERROR).max(50, MAX_LENGTH_ERROR).required(REQUIRED_FIELD_ERROR),
     twitter: yup.string().max(50, MAX_LENGTH_ERROR),
     linkedin: yup.string().max(50, MAX_LENGTH_ERROR),
+  }),
+};
+
+export const emailValidation = {
+  schema: yup.object().shape({
     email: yup.string().email(INVALID_EMAIL_ERROR).required(REQUIRED_FIELD_ERROR),
+  }),
+};
+
+export const passwordValidation = {
+  initialValues: {
+    password: '',
+    passwordConfirm: '',
+  },
+  schema: yup.object().shape({
     password: yup
       .string()
       .min(8, MIN_LENGTH_PASSWORD_ERROR)
@@ -41,5 +44,17 @@ export const formValidation = {
       .string()
       .oneOf([yup.ref('password'), null], 'Senha e Confirmação devem ser iguais')
       .required(REQUIRED_FIELD_ERROR),
+  }),
+};
+
+export const coverValidation = {
+  schema: yup.object().shape({
+    coverPath: yup.string().required(REQUIRED_FIELD_ERROR),
+  }),
+};
+
+export const pictureValidation = {
+  schema: yup.object().shape({
+    picturePath: yup.string().required(REQUIRED_FIELD_ERROR),
   }),
 };

@@ -1,7 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 
-import { formValidation } from './formValidation';
+import {
+  infoValidation,
+  emailValidation,
+  passwordValidation,
+  coverValidation,
+  pictureValidation,
+} from './formValidation';
 import { API_URL } from '../../../../constants/appConfig';
 
 import UserImage from '../../../UserImage';
@@ -10,6 +16,8 @@ import Loading from '../../../Loading';
 import { Container } from './styles';
 
 export default function Edit() {
+  const dispatch = useDispatch();
+
   const {
     isLoggedIn,
     user,
@@ -19,7 +27,8 @@ export default function Edit() {
   const coverPath = '1711735862193_13757.jpg';
 
   const handleFormSubmit = (values) => {
-    console.log('foi');
+    console.log('Update');
+    // dispatch(actions.registerRequest(values));
   };
 
   return (
@@ -28,7 +37,7 @@ export default function Edit() {
         {/* INFO */}
         <div>
           <h4>Informações</h4>
-          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={formValidation.schema}>
+          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={infoValidation.schema}>
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <div className="doubleText">
@@ -116,7 +125,7 @@ export default function Edit() {
         {/* EMAIL */}
         <div>
           <h4>Email</h4>
-          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={formValidation.schema}>
+          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={emailValidation.schema}>
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
                 <TextField
@@ -152,8 +161,8 @@ export default function Edit() {
           <h4>Senha</h4>
           <Formik
             onSubmit={handleFormSubmit}
-            initialValues={formValidation.initialValues}
-            validationSchema={formValidation.schema}
+            initialValues={passwordValidation.initialValues}
+            validationSchema={passwordValidation.schema}
           >
             {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
               <form onSubmit={handleSubmit}>
@@ -209,7 +218,7 @@ export default function Edit() {
             <Formik
               onSubmit={handleFormSubmit}
               initialValues={{ coverPath: coverPath }}
-              validationSchema={formValidation.schema}
+              validationSchema={coverValidation.schema}
             >
               {({ values, handleBlur, handleChange, handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
@@ -246,7 +255,7 @@ export default function Edit() {
           <h4>Foto</h4>
           <div>
             <UserImage image={user.picturePath} userName={user.firstName} size={80} />
-            <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={formValidation.schema}>
+            <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={coverValidation.schema}>
               {({ values, handleBlur, handleChange, handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
                   <TextField
