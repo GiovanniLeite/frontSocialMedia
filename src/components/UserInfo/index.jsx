@@ -31,7 +31,7 @@ export default function UserInfo({
     let apiErrors = [];
 
     try {
-      await axios.patch(`/users/${id}`);
+      await axios.patch(`/users/update-friend/${id}`);
 
       setHasFriendship(!hasFriendship);
     } catch (e) {

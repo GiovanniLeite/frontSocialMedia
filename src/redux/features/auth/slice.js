@@ -11,7 +11,6 @@ const initialState = {
   errors: {
     login: [],
     register: [],
-    update: [],
   },
 };
 
@@ -32,6 +31,9 @@ export const reducersObj = {
     state.errors.login = [];
     state.isLoggedIn = true;
     state.isLoading = false;
+  },
+  updateUser(state, action) {
+    state.user = action.payload;
   },
   logout(state, action) {
     delete axios.defaults.headers.common['Authorization'];

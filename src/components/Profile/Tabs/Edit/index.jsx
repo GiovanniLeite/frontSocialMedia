@@ -9,26 +9,44 @@ import {
   pictureValidation,
 } from './formValidation';
 import { API_URL } from '../../../../constants/appConfig';
+import axios from '../../../../services/axios';
+import { authActions as actions } from '../../../../redux/features/auth/slice';
+import { handleApiErrorMessages } from '../../../../services/handleApiErrors';
 
 import UserImage from '../../../UserImage';
 import TextField from '../../../TextField';
 import Loading from '../../../Loading';
 import { Container } from './styles';
+import { useState } from 'react';
 
 export default function Edit() {
   const dispatch = useDispatch();
 
-  const {
-    isLoggedIn,
-    user,
-    isLoading,
-    errors: { update: apiErrors },
-  } = useSelector((state) => state.auth);
+  const { firstName, lastName, location, occupation, twitter, linkedin, email, picturePath } = useSelector(
+    (state) => state.auth.user,
+  );
   const coverPath = '1711735862193_13757.jpg';
 
-  const handleFormSubmit = (values) => {
-    console.log('Update');
-    // dispatch(actions.registerRequest(values));
+  const initialErrors = { info: [], email: [], password: [], cover: [], picture: [] };
+  const [apiErrors, setApiErrors] = useState(initialErrors);
+
+  const handleFormSubmit = async (formType, values, setSubmitting) => {
+    setApiErrors(initialErrors);
+
+    try {
+      const { data } = await axios.patch('/users/update/', values);
+
+      dispatch(actions.updateUser(data));
+    } catch (e) {
+      const errors = handleApiErrorMessages(e, '');
+
+      setApiErrors((prevErrors) => ({
+        ...prevErrors,
+        [formType]: errors,
+      }));
+    }
+
+    setSubmitting(false);
   };
 
   return (
@@ -37,8 +55,14 @@ export default function Edit() {
         {/* INFO */}
         <div>
           <h4>Informações</h4>
-          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={infoValidation.schema}>
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+          <Formik
+            onSubmit={(values, { setSubmitting }) => {
+              handleFormSubmit('info', values, setSubmitting);
+            }}
+            initialValues={{ firstName, lastName, location, occupation, twitter, linkedin }}
+            validationSchema={infoValidation.schema}
+          >
+            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
                 <div className="doubleText">
                   <TextField
@@ -49,7 +73,7 @@ export default function Edit() {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     error={touched.firstName && errors.firstName}
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   />
                   <TextField
                     label="Sobrenome"
@@ -59,7 +83,7 @@ export default function Edit() {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     error={touched.lastName && errors.lastName}
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   />
                 </div>
                 <TextField
@@ -70,7 +94,7 @@ export default function Edit() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   error={touched.location && errors.location}
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                 />
                 <TextField
                   label="Ocupação"
@@ -80,7 +104,7 @@ export default function Edit() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   error={touched.occupation && errors.occupation}
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                 />
                 <TextField
                   label="Twitter/X"
@@ -91,7 +115,7 @@ export default function Edit() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   error={touched.twitter && errors.twitter}
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                 />
                 <TextField
                   label="Linkedin"
@@ -102,18 +126,18 @@ export default function Edit() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   error={touched.linkedin && errors.linkedin}
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                 />
 
                 <button
-                  type={isLoading ? 'button' : 'submit'}
-                  className={isLoading ? 'buttonLoading' : ''}
+                  type={isSubmitting ? 'button' : 'submit'}
+                  className={isSubmitting ? 'buttonLoading' : ''}
                   title="Criar Perfil"
                 >
-                  {isLoading ? <Loading /> : 'Salvar'}
+                  {isSubmitting ? <Loading /> : 'Salvar'}
                 </button>
 
-                {apiErrors.map((error, index) => (
+                {apiErrors.info.map((error, index) => (
                   <p className="error" key={index}>
                     {error}
                   </p>
@@ -125,8 +149,14 @@ export default function Edit() {
         {/* EMAIL */}
         <div>
           <h4>Email</h4>
-          <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={emailValidation.schema}>
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+          <Formik
+            onSubmit={(values, { setSubmitting }) => {
+              handleFormSubmit('email', values, setSubmitting);
+            }}
+            initialValues={{ email }}
+            validationSchema={emailValidation.schema}
+          >
+            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
                 <TextField
                   label="Email"
@@ -136,18 +166,18 @@ export default function Edit() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   error={touched.email && errors.email}
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                 />
 
                 <button
-                  type={isLoading ? 'button' : 'submit'}
-                  className={isLoading ? 'buttonLoading' : ''}
+                  type={isSubmitting ? 'button' : 'submit'}
+                  className={isSubmitting ? 'buttonLoading' : ''}
                   title="Criar Perfil"
                 >
-                  {isLoading ? <Loading /> : 'Salvar'}
+                  {isSubmitting ? <Loading /> : 'Salvar'}
                 </button>
 
-                {apiErrors.map((error, index) => (
+                {apiErrors.email.map((error, index) => (
                   <p className="error" key={index}>
                     {error}
                   </p>
@@ -160,11 +190,13 @@ export default function Edit() {
         <div>
           <h4>Senha</h4>
           <Formik
-            onSubmit={handleFormSubmit}
+            onSubmit={(values, { setSubmitting }) => {
+              handleFormSubmit('password', values, setSubmitting);
+            }}
             initialValues={passwordValidation.initialValues}
             validationSchema={passwordValidation.schema}
           >
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit }) => (
+            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
                 <div className="doubleText">
                   <TextField
@@ -176,7 +208,7 @@ export default function Edit() {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     error={touched.password && errors.password}
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   />
                   <TextField
                     type="password"
@@ -187,19 +219,19 @@ export default function Edit() {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     error={touched.passwordConfirm && errors.passwordConfirm}
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <button
-                  type={isLoading ? 'button' : 'submit'}
-                  className={isLoading ? 'buttonLoading' : ''}
+                  type={isSubmitting ? 'button' : 'submit'}
+                  className={isSubmitting ? 'buttonLoading' : ''}
                   title="Criar Perfil"
                 >
-                  {isLoading ? <Loading /> : 'Salvar'}
+                  {isSubmitting ? <Loading /> : 'Salvar'}
                 </button>
 
-                {apiErrors.map((error, index) => (
+                {apiErrors.password.map((error, index) => (
                   <p className="error" key={index}>
                     {error}
                   </p>
@@ -216,11 +248,13 @@ export default function Edit() {
           <div>
             <img src={`${API_URL}images/posts/${coverPath}`} alt={coverPath} title={coverPath} />
             <Formik
-              onSubmit={handleFormSubmit}
-              initialValues={{ coverPath: coverPath }}
+              onSubmit={(values, { setSubmitting }) => {
+                handleFormSubmit('cover', values, setSubmitting);
+              }}
+              initialValues={{ coverPath }}
               validationSchema={coverValidation.schema}
             >
-              {({ values, handleBlur, handleChange, handleSubmit }) => (
+              {({ values, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
                   <TextField
                     label="Arquivo"
@@ -233,18 +267,18 @@ export default function Edit() {
                   />
 
                   <button
-                    type={isLoading ? 'button' : 'submit'}
-                    className={isLoading ? 'buttonLoading' : ''}
+                    type={isSubmitting ? 'button' : 'submit'}
+                    className={isSubmitting ? 'buttonLoading' : ''}
                     title="Procurar"
                   >
-                    {isLoading ? <Loading /> : 'Procurar'}
+                    {isSubmitting ? <Loading /> : 'Procurar'}
                   </button>
                 </form>
               )}
             </Formik>
           </div>
 
-          {apiErrors.map((error, index) => (
+          {apiErrors.cover.map((error, index) => (
             <p className="error errorMarginStyle" key={index}>
               {error}
             </p>
@@ -254,9 +288,15 @@ export default function Edit() {
         <div className="pictureContainer">
           <h4>Foto</h4>
           <div>
-            <UserImage image={user.picturePath} userName={user.firstName} size={80} />
-            <Formik onSubmit={handleFormSubmit} initialValues={user} validationSchema={coverValidation.schema}>
-              {({ values, handleBlur, handleChange, handleSubmit }) => (
+            <UserImage image={picturePath} userName={firstName} size={80} />
+            <Formik
+              onSubmit={(values, { setSubmitting }) => {
+                handleFormSubmit('cover', values, setSubmitting);
+              }}
+              initialValues={{ picturePath }}
+              validationSchema={pictureValidation.schema}
+            >
+              {({ values, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
                 <form onSubmit={handleSubmit}>
                   <TextField
                     label="Arquivo"
@@ -269,18 +309,18 @@ export default function Edit() {
                   />
 
                   <button
-                    type={isLoading ? 'button' : 'submit'}
-                    className={isLoading ? 'buttonLoading' : ''}
+                    type={isSubmitting ? 'button' : 'submit'}
+                    className={isSubmitting ? 'buttonLoading' : ''}
                     title="Procurar"
                   >
-                    {isLoading ? <Loading /> : 'Procurar'}
+                    {isSubmitting ? <Loading /> : 'Procurar'}
                   </button>
                 </form>
               )}
             </Formik>
           </div>
 
-          {apiErrors.map((error, index) => (
+          {apiErrors.picture.map((error, index) => (
             <p className="error errorMarginStyle" key={index}>
               {error}
             </p>
