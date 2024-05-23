@@ -15,7 +15,7 @@ export default function UserImage({ image, userName, size, altSize, breakpoint }
 
   return (
     <Image
-      src={image ? `${API_URL}images/user-profile/${image}` : `${API_URL}assets/default-avatar.png`}
+      src={image ? `${API_URL}images/user/${image}` : `${API_URL}assets/default-avatar.png`}
       alt={userName}
       width={imageSize}
       height={imageSize}

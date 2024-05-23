@@ -46,15 +46,3 @@ export const passwordValidation = {
       .required(REQUIRED_FIELD_ERROR),
   }),
 };
-
-export const coverValidation = {
-  schema: yup.object().shape({
-    coverPath: yup.string().required(REQUIRED_FIELD_ERROR),
-  }),
-};
-
-export const pictureValidation = {
-  schema: yup.object().shape({
-    picturePath: yup.string().required(REQUIRED_FIELD_ERROR),
-  }),
-};

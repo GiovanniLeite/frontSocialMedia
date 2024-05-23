@@ -1,31 +1,32 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
+import { useRef, useState } from 'react';
 
-import {
-  infoValidation,
-  emailValidation,
-  passwordValidation,
-  coverValidation,
-  pictureValidation,
-} from './formValidation';
+import { infoValidation, emailValidation, passwordValidation } from './formValidation';
 import { API_URL } from '../../../../constants/appConfig';
 import axios from '../../../../services/axios';
 import { authActions as actions } from '../../../../redux/features/auth/slice';
 import { handleApiErrorMessages } from '../../../../services/handleApiErrors';
+import {
+  EMAIL_ALREADY_IN_USE_ERROR,
+  NO_FIELDS_PROVIDED_ERROR,
+  USER_NOT_FOUND_ERROR,
+} from '../../../../constants/errorMessages';
 
 import UserImage from '../../../UserImage';
 import TextField from '../../../TextField';
 import Loading from '../../../Loading';
 import { Container } from './styles';
-import { useState } from 'react';
 
 export default function Edit() {
   const dispatch = useDispatch();
 
-  const { firstName, lastName, location, occupation, twitter, linkedin, email, picturePath } = useSelector(
+  const { firstName, lastName, location, occupation, twitter, linkedin, email, picturePath, coverPath } = useSelector(
     (state) => state.auth.user,
   );
-  const coverPath = '1711735862193_13757.jpg';
+
+  const coverInputRef = useRef(null);
+  const pictureInputRef = useRef(null);
 
   const initialErrors = { info: [], email: [], password: [], cover: [], picture: [] };
   const [apiErrors, setApiErrors] = useState(initialErrors);
@@ -33,20 +34,38 @@ export default function Edit() {
   const handleFormSubmit = async (formType, values, setSubmitting) => {
     setApiErrors(initialErrors);
 
+    let payload = values;
+
+    if (values.picturePath || values.coverPath) {
+      payload = new FormData();
+      Object.keys(values).forEach((key) => {
+        payload.append(key, values[key]);
+      });
+    }
+
     try {
-      const { data } = await axios.patch('/users/update/', values);
+      const { data } = await axios.patch('/users/update/', payload);
 
       dispatch(actions.updateUser(data));
     } catch (e) {
-      const errors = handleApiErrorMessages(e, '');
+      const errors = handleApiErrorMessages(e, [
+        USER_NOT_FOUND_ERROR,
+        NO_FIELDS_PROVIDED_ERROR,
+        EMAIL_ALREADY_IN_USE_ERROR,
+      ]);
 
       setApiErrors((prevErrors) => ({
         ...prevErrors,
         [formType]: errors,
       }));
+    } finally {
+      setSubmitting(false);
     }
+  };
 
-    setSubmitting(false);
+  // Utility function to convert the value to a safe string
+  const getSafeString = (value) => {
+    return typeof value === 'string' ? value : '';
   };
 
   return (
@@ -62,8 +81,8 @@ export default function Edit() {
             initialValues={{ firstName, lastName, location, occupation, twitter, linkedin }}
             validationSchema={infoValidation.schema}
           >
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
-              <form onSubmit={handleSubmit}>
+            {({ values, errors, touched, handleBlur, handleChange, isSubmitting }) => (
+              <Form>
                 <div className="doubleText">
                   <TextField
                     label="Nome"
@@ -134,7 +153,7 @@ export default function Edit() {
                   className={isSubmitting ? 'buttonLoading' : ''}
                   title="Criar Perfil"
                 >
-                  {isSubmitting ? <Loading /> : 'Salvar'}
+                  {isSubmitting ? <Loading size={'35px'} /> : 'Salvar'}
                 </button>
 
                 {apiErrors.info.map((error, index) => (
@@ -142,7 +161,7 @@ export default function Edit() {
                     {error}
                   </p>
                 ))}
-              </form>
+              </Form>
             )}
           </Formik>
         </div>
@@ -156,8 +175,8 @@ export default function Edit() {
             initialValues={{ email }}
             validationSchema={emailValidation.schema}
           >
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
-              <form onSubmit={handleSubmit}>
+            {({ values, errors, touched, handleBlur, handleChange, isSubmitting }) => (
+              <Form>
                 <TextField
                   label="Email"
                   id="email"
@@ -174,7 +193,7 @@ export default function Edit() {
                   className={isSubmitting ? 'buttonLoading' : ''}
                   title="Criar Perfil"
                 >
-                  {isSubmitting ? <Loading /> : 'Salvar'}
+                  {isSubmitting ? <Loading size={'35px'} /> : 'Salvar'}
                 </button>
 
                 {apiErrors.email.map((error, index) => (
@@ -182,7 +201,7 @@ export default function Edit() {
                     {error}
                   </p>
                 ))}
-              </form>
+              </Form>
             )}
           </Formik>
         </div>
@@ -196,8 +215,8 @@ export default function Edit() {
             initialValues={passwordValidation.initialValues}
             validationSchema={passwordValidation.schema}
           >
-            {({ values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
-              <form onSubmit={handleSubmit}>
+            {({ values, errors, touched, handleBlur, handleChange, isSubmitting }) => (
+              <Form>
                 <div className="doubleText">
                   <TextField
                     type="password"
@@ -228,7 +247,7 @@ export default function Edit() {
                   className={isSubmitting ? 'buttonLoading' : ''}
                   title="Criar Perfil"
                 >
-                  {isSubmitting ? <Loading /> : 'Salvar'}
+                  {isSubmitting ? <Loading size={'35px'} /> : 'Salvar'}
                 </button>
 
                 {apiErrors.password.map((error, index) => (
@@ -236,7 +255,7 @@ export default function Edit() {
                     {error}
                   </p>
                 ))}
-              </form>
+              </Form>
             )}
           </Formik>
         </div>
@@ -246,34 +265,40 @@ export default function Edit() {
         <div className="coverContainer">
           <h4>Capa</h4>
           <div>
-            <img src={`${API_URL}images/posts/${coverPath}`} alt={coverPath} title={coverPath} />
+            <img
+              src={`${API_URL}${coverPath ? `images/user/${coverPath}` : `assets/default-cover.jpg`}`}
+              alt={coverPath}
+              title="Cover"
+            />
             <Formik
+              initialValues={{ coverPath }}
               onSubmit={(values, { setSubmitting }) => {
                 handleFormSubmit('cover', values, setSubmitting);
               }}
-              initialValues={{ coverPath }}
-              validationSchema={coverValidation.schema}
             >
-              {({ values, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    label="Arquivo"
+              {({ values, setFieldValue, handleSubmit, isSubmitting }) => (
+                <Form>
+                  <TextField label="Capa" id="cov" value={getSafeString(values.coverPath)} disabled />
+                  <input
+                    type="file"
                     id="coverPath"
                     name="coverPath"
-                    value={values.coverPath}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled
+                    ref={coverInputRef}
+                    onChange={async (event) => {
+                      await setFieldValue('coverPath', event.currentTarget.files[0]);
+                      handleSubmit();
+                    }}
                   />
 
                   <button
-                    type={isSubmitting ? 'button' : 'submit'}
+                    type="button"
                     className={isSubmitting ? 'buttonLoading' : ''}
+                    onClick={() => coverInputRef.current.click()}
                     title="Procurar"
                   >
-                    {isSubmitting ? <Loading /> : 'Procurar'}
+                    {isSubmitting ? <Loading size={'35px'} /> : 'Procurar'}
                   </button>
-                </form>
+                </Form>
               )}
             </Formik>
           </div>
@@ -290,32 +315,34 @@ export default function Edit() {
           <div>
             <UserImage image={picturePath} userName={firstName} size={80} />
             <Formik
-              onSubmit={(values, { setSubmitting }) => {
-                handleFormSubmit('cover', values, setSubmitting);
-              }}
               initialValues={{ picturePath }}
-              validationSchema={pictureValidation.schema}
+              onSubmit={(values, { setSubmitting }) => {
+                handleFormSubmit('picture', values, setSubmitting);
+              }}
             >
-              {({ values, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    label="Arquivo"
+              {({ values, setFieldValue, handleSubmit, isSubmitting }) => (
+                <Form>
+                  <TextField label="Foto" id="pic" value={getSafeString(values.picturePath)} disabled />
+                  <input
+                    type="file"
                     id="picturePath"
                     name="picturePath"
-                    value={values.picturePath}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    disabled
+                    ref={pictureInputRef}
+                    onChange={async (event) => {
+                      await setFieldValue('picturePath', event.currentTarget.files[0]);
+                      handleSubmit();
+                    }}
                   />
 
                   <button
-                    type={isSubmitting ? 'button' : 'submit'}
+                    type="button"
                     className={isSubmitting ? 'buttonLoading' : ''}
+                    onClick={() => pictureInputRef.current.click()}
                     title="Procurar"
                   >
-                    {isSubmitting ? <Loading /> : 'Procurar'}
+                    {isSubmitting ? <Loading size={'35px'} /> : 'Procurar'}
                   </button>
-                </form>
+                </Form>
               )}
             </Formik>
           </div>

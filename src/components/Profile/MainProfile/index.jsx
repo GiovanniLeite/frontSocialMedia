@@ -13,15 +13,14 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 
+import { API_URL } from '../../../constants/appConfig';
 import UserImage from '../../UserImage';
 import { Container } from './styles';
 
 export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
   const { list } = useSelector((state) => state.friendList);
-  // const list = [];
 
   const name = `${user.firstName} ${user.lastName}`;
-  const coverPath = 'http://localhost:3001/images/posts/1711735862193_13757.jpg';
   const isFriend = true;
 
   const menuItems = [
@@ -58,7 +57,10 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
   return (
     <Container>
       <div className="profileCover">
-        <img src={coverPath} alt={`${name} cover`} />
+        <img
+          src={`${API_URL}${user.coverPath ? `images/user/${user.coverPath}` : `assets/default-cover.jpg`}`}
+          alt={`${name} cover`}
+        />
         {isLoggedUser && (
           <button className="expandingButton" onClick={() => console.log('Editar capa')}>
             <MdOutlineSettings size={20} /> <span>Editar capa</span>
@@ -146,6 +148,7 @@ MainProfile.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
     picturePath: PropTypes.string,
+    coverPath: PropTypes.string,
     friends: PropTypes.array,
     location: PropTypes.string,
     occupation: PropTypes.string,

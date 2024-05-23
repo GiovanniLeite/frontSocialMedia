@@ -3,6 +3,12 @@ import { get } from 'lodash';
 
 import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
+import {
+  EMAIL_ALREADY_IN_USE_ERROR,
+  INVALID_CREDENTIALS_ERROR,
+  INVALID_EMAIL_OR_USER_NOT_EXIST_ERROR,
+  INVALID_PASSWORD_ERROR,
+} from '../../../constants/errorMessages';
 
 import { authActions } from './slice';
 import * as actions from './actions';
@@ -14,7 +20,7 @@ export function* registerRequest(action) {
 
     yield put(authActions.loginSuccess({ token, user }));
   } catch (e) {
-    const errorMessages = handleApiErrorMessages(e, 'Esse endereço de email já está em uso');
+    const errorMessages = handleApiErrorMessages(e, EMAIL_ALREADY_IN_USE_ERROR);
 
     yield put(authActions.logout({ page: 'register', errorMessages }));
   }
@@ -28,9 +34,9 @@ export function* loginRequest(action) {
     yield put(authActions.loginSuccess({ token, user }));
   } catch (e) {
     const errorMessages = handleApiErrorMessages(e, [
-      'Credenciais inválidas',
-      'Email inválido ou Usuário não existe',
-      'Senha inválida',
+      INVALID_CREDENTIALS_ERROR,
+      INVALID_EMAIL_OR_USER_NOT_EXIST_ERROR,
+      INVALID_PASSWORD_ERROR,
     ]);
 
     yield put(authActions.logout({ page: 'login', errorMessages }));

@@ -35,7 +35,7 @@ export default function UserInfo({
 
       setHasFriendship(!hasFriendship);
     } catch (e) {
-      apiErrors = handleApiErrorMessages(e, '');
+      apiErrors = handleApiErrorMessages(e);
     }
 
     setErrors(apiErrors);

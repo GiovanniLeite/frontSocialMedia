@@ -39,6 +39,10 @@ export const Container = styled.section`
           gap: ${theme.spacings.small};
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        input[type='file'] {
+          display: none;
+        }
       }
 
       button {
