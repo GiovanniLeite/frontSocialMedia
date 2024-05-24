@@ -10,8 +10,9 @@ import { handleApiErrorMessages } from '../../../../services/handleApiErrors';
 import {
   EMAIL_ALREADY_IN_USE_ERROR,
   NO_FIELDS_PROVIDED_ERROR,
+  SUCCESS_UPDATE_MESSAGE,
   USER_NOT_FOUND_ERROR,
-} from '../../../../constants/errorMessages';
+} from '../../../../constants/messages';
 
 import UserImage from '../../../UserImage';
 import TextField from '../../../TextField';
@@ -28,14 +29,20 @@ export default function Edit() {
   const coverInputRef = useRef(null);
   const pictureInputRef = useRef(null);
 
-  const initialErrors = { info: [], email: [], password: [], cover: [], picture: [] };
-  const [apiErrors, setApiErrors] = useState(initialErrors);
+  // Error and Success messages
+  const initialMessages = { info: [], email: [], password: [], cover: [], picture: [] };
+  const [apiErrors, setApiErrors] = useState(initialMessages);
+  const [successMessage, setSuccessMessage] = useState(initialMessages);
 
   const handleFormSubmit = async (formType, values, setSubmitting) => {
-    setApiErrors(initialErrors);
+    // Clear previous error and success messages
+    setApiErrors(initialMessages);
+    setSuccessMessage(initialMessages);
 
+    // Variable to hold form values
     let payload = values;
 
+    // Check if any file inputs are present
     if (values.picturePath || values.coverPath) {
       payload = new FormData();
       Object.keys(values).forEach((key) => {
@@ -46,19 +53,29 @@ export default function Edit() {
     try {
       const { data } = await axios.patch('/users/update/', payload);
 
+      // Update user in Redux store
       dispatch(actions.updateUser(data));
+
+      // Set success message for the specific form
+      setSuccessMessage((prevSuccess) => ({
+        ...prevSuccess,
+        [formType]: SUCCESS_UPDATE_MESSAGE,
+      }));
     } catch (e) {
+      // Handles API errors and returns an array of user-friendly messages
       const errors = handleApiErrorMessages(e, [
         USER_NOT_FOUND_ERROR,
         NO_FIELDS_PROVIDED_ERROR,
         EMAIL_ALREADY_IN_USE_ERROR,
       ]);
 
+      // Set error messages for the specific form
       setApiErrors((prevErrors) => ({
         ...prevErrors,
         [formType]: errors,
       }));
     } finally {
+      // End the form's submitting state
       setSubmitting(false);
     }
   };
@@ -157,10 +174,11 @@ export default function Edit() {
                 </button>
 
                 {apiErrors.info.map((error, index) => (
-                  <p className="error" key={index}>
+                  <p className="errorMessage" key={index}>
                     {error}
                   </p>
                 ))}
+                {successMessage.info && <p className="successMessage">{successMessage.info}</p>}
               </Form>
             )}
           </Formik>
@@ -197,10 +215,11 @@ export default function Edit() {
                 </button>
 
                 {apiErrors.email.map((error, index) => (
-                  <p className="error" key={index}>
+                  <p className="errorMessage" key={index}>
                     {error}
                   </p>
                 ))}
+                {successMessage.email && <p className="successMessage">{successMessage.email}</p>}
               </Form>
             )}
           </Formik>
@@ -251,10 +270,11 @@ export default function Edit() {
                 </button>
 
                 {apiErrors.password.map((error, index) => (
-                  <p className="error" key={index}>
+                  <p className="errorMessage" key={index}>
                     {error}
                   </p>
                 ))}
+                {successMessage.password && <p className="successMessage">{successMessage.password}</p>}
               </Form>
             )}
           </Formik>
@@ -304,10 +324,11 @@ export default function Edit() {
           </div>
 
           {apiErrors.cover.map((error, index) => (
-            <p className="error errorMarginStyle" key={index}>
+            <p className="errorMessage fileFormMessage" key={index}>
               {error}
             </p>
           ))}
+          {successMessage.cover && <p className="successMessage fileFormMessage">{successMessage.cover}</p>}
         </div>
         {/* PICTURE */}
         <div className="pictureContainer">
@@ -348,10 +369,11 @@ export default function Edit() {
           </div>
 
           {apiErrors.picture.map((error, index) => (
-            <p className="error errorMarginStyle" key={index}>
+            <p className="errorMessage fileFormMessage" key={index}>
               {error}
             </p>
           ))}
+          {successMessage.picture && <p className="successMessage fileFormMessage">{successMessage.picture}</p>}
         </div>
       </div>
     </Container>

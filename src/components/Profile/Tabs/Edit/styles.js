@@ -62,13 +62,18 @@ export const Container = styled.section`
         }
       }
 
-      .error {
+      .successMessage {
+        color: ${theme.colors.success};
+        text-align: center;
+      }
+
+      .errorMessage {
         color: ${theme.colors.error};
         text-align: center;
+      }
 
-        &.errorMarginStyle {
-          margin: ${theme.spacings.small} 0;
-        }
+      .fileFormMessage {
+        margin: ${theme.spacings.small} 0;
       }
 
       .coverContainer {

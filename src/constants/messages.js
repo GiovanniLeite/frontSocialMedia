@@ -1,3 +1,8 @@
+/*** MESSAGES ***/
+export const SUCCESS_UPDATE_MESSAGE = 'Atualizado com sucesso!';
+
+/*** ERROR MESSAGES ***/
+
 // GENERIC
 export const GENERIC_ERROR = 'Houve um erro, tente novamente mais tarde';
 export const USER_NOT_FOUND_ERROR = 'Usuário não encontrado';

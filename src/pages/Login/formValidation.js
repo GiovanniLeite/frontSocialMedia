@@ -5,7 +5,7 @@ import {
   INVALID_EMAIL_ERROR,
   MAX_LENGTH_ERROR,
   MIN_LENGTH_PASSWORD_ERROR,
-} from '../../constants/errorMessages';
+} from '../../constants/messages';
 
 export const formValidation = {
   initialValues: {

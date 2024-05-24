@@ -28,6 +28,7 @@ const theme = (mode) => {
       900: '#001519',
     },
     error: '#FF6B6B',
+    success: '#4CAF50',
   };
 
   const spacings = {
@@ -69,6 +70,7 @@ const theme = (mode) => {
         alt: colorTokens.grey[0],
       },
       error: colorTokens.error,
+      success: colorTokens.success,
     },
     spacings,
     font,
@@ -95,6 +97,7 @@ const theme = (mode) => {
         alt: colorTokens.grey[800],
       },
       error: colorTokens.error,
+      success: colorTokens.success,
     },
     spacings,
     font,

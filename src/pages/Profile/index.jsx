@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import axios from '../../services/axios';
 import { handleApiErrorMessages } from '../../services/handleApiErrors';
-import { USER_NOT_FOUND_ERROR } from '../../constants/errorMessages';
+import { USER_NOT_FOUND_ERROR } from '../../constants/messages';
 
 import Loading from '../../components/Loading';
 import MainProfile from '../../components/Profile/MainProfile';

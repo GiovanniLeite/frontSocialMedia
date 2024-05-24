@@ -2,7 +2,7 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
-import { NO_DATA_ERROR } from '../../../constants/errorMessages';
+import { NO_DATA_ERROR } from '../../../constants/messages';
 
 import { postListActions as actions } from './slice';
 

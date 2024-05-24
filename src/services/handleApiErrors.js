@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { GENERIC_ERROR, INVALID_TOKEN_ERROR, LOGIN_REQUIRED_ERROR } from '../constants/errorMessages';
+import { GENERIC_ERROR, INVALID_TOKEN_ERROR, LOGIN_REQUIRED_ERROR } from '../constants/messages';
 
 /**
  * Handles API errors and returns an array of user-friendly error messages.

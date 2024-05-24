@@ -8,7 +8,7 @@ import {
   INVALID_CREDENTIALS_ERROR,
   INVALID_EMAIL_OR_USER_NOT_EXIST_ERROR,
   INVALID_PASSWORD_ERROR,
-} from '../../../constants/errorMessages';
+} from '../../../constants/messages';
 
 import { authActions } from './slice';
 import * as actions from './actions';
