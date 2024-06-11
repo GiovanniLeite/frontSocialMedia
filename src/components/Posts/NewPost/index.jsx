@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
 import { postListActions as actions } from '../../../redux/features/postList/slice';
+import { USER_NOT_FOUND_ERROR } from '../../../constants/apiErrorMessages';
 
 import UserImage from '../../UserImage';
 import Loading from '../../Loading';
@@ -54,7 +55,7 @@ export default function NewPost({ page }) {
       setShowImageBox(false);
       dispatch(actions.setPostList({ posts: data, errors: [] }));
     } catch (e) {
-      const errors = handleApiErrorMessages(e);
+      const errors = handleApiErrorMessages(e, USER_NOT_FOUND_ERROR);
       dispatch(actions.setPostList({ errors }));
     }
 
@@ -88,7 +89,7 @@ export default function NewPost({ page }) {
           className="newPost"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="No que você está pensando?"
+          placeholder="What's on your mind?"
         />
       </div>
 
@@ -104,16 +105,16 @@ export default function NewPost({ page }) {
                 <div className="dashed" {...getRootProps()}>
                   <input {...getInputProps()} />
                   {!image ? (
-                    <p>Adicione uma imagem Aqui</p>
+                    <p>Add an image Here</p>
                   ) : (
-                    <div className="flexBetween" title="Trocar Imagem">
+                    <div className="flexBetween" title="Change Image">
                       <p>{image.name}</p>
                       <MdOutlineModeEditOutline size={20} />
                     </div>
                   )}
                 </div>
                 {image && (
-                  <button className="coloredButton" onClick={() => setImage(null)} title="Remover Imagem">
+                  <button className="coloredButton" onClick={() => setImage(null)} title="Remove Image">
                     <MdDeleteOutline size={20} />
                   </button>
                 )}
@@ -128,7 +129,7 @@ export default function NewPost({ page }) {
       <div className="flexBetween">
         <button className="flexBetween" onClick={() => setShowImageBox(!showImageBox)}>
           <MdOutlineImage size={20} />
-          Imagem
+          Image
         </button>
 
         {isMobile ? (
@@ -144,7 +145,7 @@ export default function NewPost({ page }) {
 
             <button className="flexBetween">
               <MdOutlineAttachFile size={20} />
-              Anexo
+              Attachment
             </button>
 
             <button className="flexBetween">
@@ -157,8 +158,8 @@ export default function NewPost({ page }) {
         {isLoading ? (
           <Loading size={'25px'} />
         ) : (
-          <button className="coloredButton post" onClick={handlePost} title="Enviar Post">
-            Publicar
+          <button className="coloredButton post" onClick={handlePost}>
+            Post
           </button>
         )}
       </div>

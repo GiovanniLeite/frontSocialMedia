@@ -51,20 +51,20 @@ export default function Post({ post }) {
       <div className="flexBetween actions">
         <div className="flexBetween likeComment">
           <div className="flexBetween">
-            <button onClick={handleLike} title="Curtir">
+            <button onClick={handleLike} title="Likes">
               {isLiked ? <MdOutlineFavorite size={20} /> : <MdOutlineFavoriteBorder size={20} />}
             </button>
             <span>{likeCount}</span>
           </div>
           <div className="flexBetween">
-            <button onClick={() => setShowComments(!showComments)} title="Comentar">
+            <button onClick={() => setShowComments(!showComments)} title="Comment">
               <MdOutlineChatBubbleOutline size={20} />
             </button>
             <span>{comments.length}</span>
           </div>
         </div>
 
-        <button className="share" title="Compartilhar">
+        <button className="share" title="Share">
           <BsShare size={20} />
         </button>
       </div>

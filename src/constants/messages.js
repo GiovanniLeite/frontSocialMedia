@@ -1,25 +1,20 @@
 /*** MESSAGES ***/
-export const SUCCESS_UPDATE_MESSAGE = 'Atualizado com sucesso!';
+export const SUCCESS_UPDATE_MESSAGE = 'Updated successfully!';
 
 /*** ERROR MESSAGES ***/
 
 // GENERIC
-export const GENERIC_ERROR = 'Houve um erro, tente novamente mais tarde';
-export const USER_NOT_FOUND_ERROR = 'Usuário não encontrado';
-export const NO_DATA_ERROR = 'Nenhum';
-
-// LOGIN - UPDATE
-export const LOGIN_REQUIRED_ERROR = 'É necessário fazer login';
-export const INVALID_TOKEN_ERROR = 'Token expirado ou inválido, deslogue e logue novamente';
-export const INVALID_CREDENTIALS_ERROR = 'Credenciais inválidas';
-export const INVALID_EMAIL_OR_USER_NOT_EXIST_ERROR = 'Email inválido ou Usuário não existe';
-export const INVALID_PASSWORD_ERROR = 'Senha inválida';
-export const EMAIL_ALREADY_IN_USE_ERROR = 'Esse endereço de email já está em uso';
-export const NO_FIELDS_PROVIDED_ERROR = 'Nenhum campo fornecido para atualização';
+export const GENERIC_ERROR = 'An error occurred, please try again later.';
+export const NO_DATA_ERROR = 'No data available.';
 
 // FORMS
-export const REQUIRED_FIELD_ERROR = 'Campo Obrigatório';
-export const INVALID_EMAIL_ERROR = 'Email inválido';
-export const MIN_LENGTH_ERROR = 'Deve ter pelo menos 3 caracteres';
-export const MIN_LENGTH_PASSWORD_ERROR = 'Deve ter pelo menos 8 caracteres';
-export const MAX_LENGTH_ERROR = 'Deve ter no máximo 50 caracteres';
+export const REQUIRED_FIELD_ERROR = 'This field is required.';
+export const INVALID_EMAIL_ERROR = 'Invalid email.';
+export const MIN_LENGTH_ERROR = 'Must be at least 3 characters long.';
+export const MIN_LENGTH_PASSWORD_ERROR = 'Must be at least 8 characters long.';
+export const MAX_LENGTH_ERROR = 'Must be no more than 50 characters long.';
+export const UPPERCASE_LETTER_ERROR = 'Must contain at least one uppercase letter (e.g., ABC)';
+export const LOWERCASE_LETTER_ERROR = 'Must contain at least one lowercase letter (e.g., abc)';
+export const NUMBER_ERROR = 'Must contain at least one number (e.g., 981)';
+export const SPECIAL_CHARACTER_ERROR = 'Must contain at least one special character (e.g., @$!)';
+export const PASSWORD_CONFIRMATION_ERROR = 'Password and Confirmation must match';

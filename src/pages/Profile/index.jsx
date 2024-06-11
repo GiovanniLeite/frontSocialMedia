@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import axios from '../../services/axios';
 import { handleApiErrorMessages } from '../../services/handleApiErrors';
-import { USER_NOT_FOUND_ERROR } from '../../constants/messages';
+import { USERS_NOT_FOUND_ERROR } from '../../constants/apiErrorMessages';
 
 import Loading from '../../components/Loading';
 import MainProfile from '../../components/Profile/MainProfile';
@@ -16,7 +16,6 @@ import Notifications from '../../components/Profile/Tabs/Notifications';
 import Edit from '../../components/Profile/Tabs/Edit';
 import AdWrapper from '../../components/widgets/AdWrapper';
 import FriendList from '../../components/widgets/FriendList';
-
 import { Container } from './styles';
 
 export default function Profile() {
@@ -45,7 +44,7 @@ export default function Profile() {
         const { data } = await axios.get(`/users/${id}`);
         setUser(data);
       } catch (e) {
-        const err = handleApiErrorMessages(e, USER_NOT_FOUND_ERROR);
+        const err = handleApiErrorMessages(e, USERS_NOT_FOUND_ERROR);
 
         setErrors(err);
       }
@@ -54,6 +53,10 @@ export default function Profile() {
     }
 
     getData();
+  }, [id, loggedUser]);
+
+  useEffect(() => {
+    setTab(0);
   }, [id]);
 
   const renderTab = () => {
@@ -76,7 +79,7 @@ export default function Profile() {
   return (
     <>
       <Helmet>
-        <title>ShareFun | Perfil</title>
+        <title>ShareFun | Profile</title>
       </Helmet>
       <Container>
         <div className="controledWidth">

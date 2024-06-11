@@ -17,7 +17,7 @@ export default function AdWrapper({ ad = mock }) {
   return (
     <Container>
       <div className="flexBetween">
-        <h5>Patrocinado</h5>
+        <h5>Sponsored</h5>
         <Link to="/create-ad">Create Ad</Link>
       </div>
       <a href={ad.link} title={ad.title} target="_blank" rel="noreferrer">

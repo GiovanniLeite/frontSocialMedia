@@ -5,7 +5,7 @@ import { Container } from './styles';
 export default function FormBox({ children }) {
   return (
     <Container>
-      <h5>Bem vindo à ShareFun, a Rede Social que transforma conexões!</h5>
+      <h5>Welcome to ShareFun, the Social Network that transforms connections!</h5>
       {children}
     </Container>
   );

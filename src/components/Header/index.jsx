@@ -73,32 +73,32 @@ export default function Header() {
             ShareFun
           </Link>
           <form className="mainBarSearch" onSubmit={(e) => handleSearch(e)}>
-            <input type="text" placeholder="Procurar..." />
+            <input type="text" placeholder="Search..." />
             <AiOutlineSearch size={20} />
           </form>
         </div>
 
         <div className="mainBar menuDesk">
           <a onClick={(e) => toggleThemeMode(e)}>
-            {mode === 'light' ? <MdLightMode size={20} title="Claro" /> : <MdDarkMode size={20} title="Escuro" />}
+            {mode === 'light' ? <MdLightMode size={20} title="Light" /> : <MdDarkMode size={20} title="Dark" />}
           </a>
-          <a onClick={(e) => handleMenu(e)} title="Mensagens">
+          <a onClick={(e) => handleMenu(e)} title="Messages">
             <MdMessage size={20} />
           </a>
-          <a onClick={(e) => handleMenu(e)} title="Notificações">
+          <a onClick={(e) => handleMenu(e)} title="Notifications">
             <MdNotifications size={20} />
           </a>
           {user ? (
             <>
-              <Link to="/profile" title="Perfil">
+              <Link to="/profile" title="Profile">
                 <MdPerson size={20} />
               </Link>
-              <a className="logout" onClick={(e) => handleLogout(e)} title="Sair">
+              <a className="logout" onClick={(e) => handleLogout(e)} title="Log Out">
                 <MdLogout size={20} />
               </a>
             </>
           ) : (
-            <Link to="/login" title="Login">
+            <Link to="/login" title="Log In">
               <MdLogin size={20} />
             </Link>
           )}
@@ -110,7 +110,7 @@ export default function Header() {
         <ul className={`menuMobile ${showMenu ? 'showMenuMobile' : ''}`}>
           <li>
             <form>
-              <input type="text" placeholder="Procurar..." />
+              <input type="text" placeholder="Search..." />
               <AiOutlineSearch size={20} />
             </form>
           </li>
@@ -122,40 +122,40 @@ export default function Header() {
             >
               {mode === 'light' ? (
                 <>
-                  <MdDarkMode size={20} title="Escuro" /> Escuro
+                  <MdDarkMode size={20} title="Dark" /> Dark
                 </>
               ) : (
                 <>
-                  <MdLightMode size={20} title="Claro" /> Claro
+                  <MdLightMode size={20} title="Light" /> Light
                 </>
               )}
             </a>
           </li>
           <li>
-            <a onClick={(e) => handleMenu(e)} title="Mensagens">
-              <MdMessage size={20} /> Mensagens
+            <a onClick={(e) => handleMenu(e)} title="Messages">
+              <MdMessage size={20} /> Messages
             </a>
           </li>
           <li>
-            <a onClick={(e) => handleMenu(e)} title="Notificações">
-              <MdNotifications size={20} /> Notificações
+            <a onClick={(e) => handleMenu(e)} title="Notifications">
+              <MdNotifications size={20} /> Notifications
             </a>
           </li>
           <li>
             {user ? (
-              <Link to="/profile" title="Perfil">
-                <MdPerson size={20} /> Perfil
+              <Link to="/profile" title="Profile">
+                <MdPerson size={20} /> Profile
               </Link>
             ) : (
-              <Link to="/login" title="Login">
-                <MdLogin size={20} /> Login
+              <Link to="/login" title="Log In">
+                <MdLogin size={20} /> Log In
               </Link>
             )}
           </li>
           {user && (
             <li>
-              <a onClick={(e) => handleLogout(e)} title="Sair">
-                <MdLogout size={20} /> Sair
+              <a onClick={(e) => handleLogout(e)} title="Log Out">
+                <MdLogout size={20} /> Log Out
               </a>
             </li>
           )}

@@ -7,6 +7,7 @@ import Loading from '../../../Loading';
 import { Container } from './styles';
 
 export default function Friends() {
+  const loggedUser = useSelector((state) => state.auth.user);
   const { isLoading, errors, list } = useSelector((state) => state.friendList);
 
   // Number of Items to Load - handleLoadMore()
@@ -37,14 +38,14 @@ export default function Friends() {
                   picturePath={friend.picturePath}
                   pictureSize={70}
                   isFriend={friend.isFriend}
-                  showButton={true}
+                  showButton={friend._id === loggedUser._id ? false : true}
                 />
               </div>
             ))}
           </div>
           {currentItems.length < allItemsLength && (
             <button className="showMore" onClick={() => handleLoadMore(numberOfItemsToLoad)}>
-              Ver mais
+              Show more
             </button>
           )}
         </>

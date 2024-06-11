@@ -25,7 +25,6 @@ export const reducersObj = {
     state.errors.login = [];
   },
   loginSuccess(state, action) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
     state.token = action.payload.token;
     state.user = action.payload.user;
     state.errors.login = [];

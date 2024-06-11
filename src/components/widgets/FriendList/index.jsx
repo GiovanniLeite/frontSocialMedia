@@ -12,6 +12,7 @@ import { Container } from './styles';
 export default function FriendList({ userId, length = 6 }) {
   const dispatch = useDispatch();
 
+  const loggedUser = useSelector((state) => state.auth.user);
   const { isLoading, errors, list } = useSelector((state) => state.friendList);
 
   useEffect(() => {
@@ -21,8 +22,8 @@ export default function FriendList({ userId, length = 6 }) {
   return (
     <Container>
       <div className="flexBetween title">
-        <h4>Amigos</h4>
-        {list.length >= length && <Link to={`/friends/${userId}`}>Ver todos</Link>}
+        <h4>Friends</h4>
+        {list.length >= length && <Link to={`/friends/${userId}`}>See all</Link>}
       </div>
       {(isLoading && <Loading />) || errors.map((error, index) => <p key={index}>{error}</p>)}
       {isLoading ||
@@ -37,7 +38,7 @@ export default function FriendList({ userId, length = 6 }) {
               picturePath={friend.picturePath}
               pictureSize={40}
               isFriend={friend.isFriend}
-              showButton={true}
+              showButton={friend._id === loggedUser._id ? false : true}
             />
           ))}
     </Container>

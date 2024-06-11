@@ -7,12 +7,12 @@ import { API_URL } from '../../../../constants/appConfig';
 import axios from '../../../../services/axios';
 import { authActions as actions } from '../../../../redux/features/auth/slice';
 import { handleApiErrorMessages } from '../../../../services/handleApiErrors';
+import { SUCCESS_UPDATE_MESSAGE } from '../../../../constants/messages';
 import {
   EMAIL_ALREADY_IN_USE_ERROR,
   NO_FIELDS_PROVIDED_ERROR,
-  SUCCESS_UPDATE_MESSAGE,
   USER_NOT_FOUND_ERROR,
-} from '../../../../constants/messages';
+} from '../../../../constants/apiErrorMessages';
 
 import UserImage from '../../../UserImage';
 import TextField from '../../../TextField';
@@ -90,7 +90,7 @@ export default function Edit() {
       <div className="formGroup">
         {/* INFO */}
         <div>
-          <h4>Informações</h4>
+          <h4>Information</h4>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
               handleFormSubmit('info', values, setSubmitting);
@@ -102,7 +102,7 @@ export default function Edit() {
               <Form>
                 <div className="doubleText">
                   <TextField
-                    label="Nome"
+                    label="First Name"
                     id="firstName"
                     name="firstName"
                     value={values.firstName}
@@ -112,7 +112,7 @@ export default function Edit() {
                     disabled={isSubmitting}
                   />
                   <TextField
-                    label="Sobrenome"
+                    label="Last Name"
                     id="lastName"
                     name="lastName"
                     value={values.lastName}
@@ -123,7 +123,7 @@ export default function Edit() {
                   />
                 </div>
                 <TextField
-                  label="Cidade, Estado"
+                  label="City, State"
                   id="location"
                   name="location"
                   value={values.location}
@@ -133,7 +133,7 @@ export default function Edit() {
                   disabled={isSubmitting}
                 />
                 <TextField
-                  label="Ocupação"
+                  label="Occupation"
                   id="occupation"
                   name="occupation"
                   value={values.occupation}
@@ -165,12 +165,8 @@ export default function Edit() {
                   disabled={isSubmitting}
                 />
 
-                <button
-                  type={isSubmitting ? 'button' : 'submit'}
-                  className={isSubmitting ? 'buttonLoading' : ''}
-                  title="Criar Perfil"
-                >
-                  {isSubmitting ? <Loading size={'35px'} /> : 'Salvar'}
+                <button type={isSubmitting ? 'button' : 'submit'} className={isSubmitting ? 'buttonLoading' : ''}>
+                  {isSubmitting ? <Loading size={'35px'} /> : 'Save'}
                 </button>
 
                 {apiErrors.info.map((error, index) => (
@@ -206,12 +202,8 @@ export default function Edit() {
                   disabled={isSubmitting}
                 />
 
-                <button
-                  type={isSubmitting ? 'button' : 'submit'}
-                  className={isSubmitting ? 'buttonLoading' : ''}
-                  title="Criar Perfil"
-                >
-                  {isSubmitting ? <Loading size={'35px'} /> : 'Salvar'}
+                <button type={isSubmitting ? 'button' : 'submit'} className={isSubmitting ? 'buttonLoading' : ''}>
+                  {isSubmitting ? <Loading size={'35px'} /> : 'Save'}
                 </button>
 
                 {apiErrors.email.map((error, index) => (
@@ -226,7 +218,7 @@ export default function Edit() {
         </div>
         {/* PASSWORD */}
         <div>
-          <h4>Senha</h4>
+          <h4>Password</h4>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
               handleFormSubmit('password', values, setSubmitting);
@@ -239,7 +231,7 @@ export default function Edit() {
                 <div className="doubleText">
                   <TextField
                     type="password"
-                    label="Senha"
+                    label="Password"
                     id="password"
                     name="password"
                     value={values.password}
@@ -250,7 +242,7 @@ export default function Edit() {
                   />
                   <TextField
                     type="password"
-                    label="Confirmar"
+                    label="Confirm"
                     id="passwordConfirm"
                     name="passwordConfirm"
                     value={values.passwordConfirm}
@@ -261,12 +253,8 @@ export default function Edit() {
                   />
                 </div>
 
-                <button
-                  type={isSubmitting ? 'button' : 'submit'}
-                  className={isSubmitting ? 'buttonLoading' : ''}
-                  title="Criar Perfil"
-                >
-                  {isSubmitting ? <Loading size={'35px'} /> : 'Salvar'}
+                <button type={isSubmitting ? 'button' : 'submit'} className={isSubmitting ? 'buttonLoading' : ''}>
+                  {isSubmitting ? <Loading size={'35px'} /> : 'Save'}
                 </button>
 
                 {apiErrors.password.map((error, index) => (
@@ -283,7 +271,7 @@ export default function Edit() {
       <div className="formGroup">
         {/* COVER */}
         <div className="coverContainer">
-          <h4>Capa</h4>
+          <h4>Cover</h4>
           <div>
             <img
               src={`${API_URL}${coverPath ? `images/user/${coverPath}` : `assets/default-cover.jpg`}`}
@@ -298,7 +286,7 @@ export default function Edit() {
             >
               {({ values, setFieldValue, handleSubmit, isSubmitting }) => (
                 <Form>
-                  <TextField label="Capa" id="cov" value={getSafeString(values.coverPath)} disabled />
+                  <TextField label="Cover" id="cov" value={getSafeString(values.coverPath)} disabled />
                   <input
                     type="file"
                     id="coverPath"
@@ -314,9 +302,9 @@ export default function Edit() {
                     type="button"
                     className={isSubmitting ? 'buttonLoading' : ''}
                     onClick={() => coverInputRef.current.click()}
-                    title="Procurar"
+                    title="Search"
                   >
-                    {isSubmitting ? <Loading size={'35px'} /> : 'Procurar'}
+                    {isSubmitting ? <Loading size={'35px'} /> : 'Search'}
                   </button>
                 </Form>
               )}
@@ -332,7 +320,7 @@ export default function Edit() {
         </div>
         {/* PICTURE */}
         <div className="pictureContainer">
-          <h4>Foto</h4>
+          <h4>Picture</h4>
           <div>
             <UserImage image={picturePath} userName={firstName} size={80} />
             <Formik
@@ -343,7 +331,7 @@ export default function Edit() {
             >
               {({ values, setFieldValue, handleSubmit, isSubmitting }) => (
                 <Form>
-                  <TextField label="Foto" id="pic" value={getSafeString(values.picturePath)} disabled />
+                  <TextField label="Picture" id="pic" value={getSafeString(values.picturePath)} disabled />
                   <input
                     type="file"
                     id="picturePath"
@@ -359,15 +347,14 @@ export default function Edit() {
                     type="button"
                     className={isSubmitting ? 'buttonLoading' : ''}
                     onClick={() => pictureInputRef.current.click()}
-                    title="Procurar"
+                    title="Search"
                   >
-                    {isSubmitting ? <Loading size={'35px'} /> : 'Procurar'}
+                    {isSubmitting ? <Loading size={'35px'} /> : 'Search'}
                   </button>
                 </Form>
               )}
             </Formik>
           </div>
-
           {apiErrors.picture.map((error, index) => (
             <p className="errorMessage fileFormMessage" key={index}>
               {error}

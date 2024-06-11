@@ -1,8 +1,9 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 
 import axios from '../../../services/axios';
-import { NO_DATA_ERROR, USER_NOT_FOUND_ERROR } from '../../../constants/messages';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
+import { NO_DATA_ERROR } from '../../../constants/messages';
+import { USER_NOT_FOUND_ERROR } from '../../../constants/apiErrorMessages';
 
 import { friendListActions as actions } from './slice';
 

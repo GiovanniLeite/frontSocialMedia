@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import axios from '../../services/axios';
 import { handleApiErrorMessages } from '../../services/handleApiErrors';
+import { MAX_FRIENDS_REACHED_ERROR, USERS_NOT_FOUND_ERROR } from '../../constants/apiErrorMessages';
 
 import Loading from '../Loading';
 import UserImage from '../UserImage';
@@ -35,7 +36,7 @@ export default function UserInfo({
 
       setHasFriendship(!hasFriendship);
     } catch (e) {
-      apiErrors = handleApiErrorMessages(e);
+      apiErrors = handleApiErrorMessages(e, [USERS_NOT_FOUND_ERROR, MAX_FRIENDS_REACHED_ERROR]);
     }
 
     setErrors(apiErrors);
@@ -64,7 +65,7 @@ export default function UserInfo({
           {showButton &&
             ((isLoading && <Loading />) || (
               <button
-                title={`${hasFriendship ? 'Remover' : 'Adicionar'} ${name}`}
+                title={`${hasFriendship ? 'Remove' : 'Add'} ${name}`}
                 className={`userButton ${hasFriendship ? 'removeFriend' : ''}`}
                 onClick={() => {
                   hasFriendship ? setShowModal(true) : toggleFriend();
@@ -80,8 +81,8 @@ export default function UserInfo({
       </Container>
       {/* MODAL */}
       <Modal
-        title="Desfazer Amizade"
-        description={`Tem certeza de que você quer remover "${name}" da lista de amigos?`}
+        title="Remove Friend"
+        description={`Are you sure you want to remove "${name}" from your friends list?`}
         showModal={showModal}
         handleCloseModal={() => setShowModal(false)}
         handleConfirm={() => toggleFriend()}

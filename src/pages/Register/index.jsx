@@ -35,7 +35,7 @@ export default function Register() {
   return (
     <>
       <Helmet>
-        <title>ShareFun | Registro | Crie sua conta</title>
+        <title>ShareFun | Register | Create Your Account</title>
       </Helmet>
       <Container>
         <FormBox>
@@ -48,7 +48,7 @@ export default function Register() {
               <form onSubmit={handleSubmit}>
                 <div className="doubleText">
                   <TextField
-                    label="Nome"
+                    label="First Name"
                     id="firstName"
                     name="firstName"
                     value={values.firstName}
@@ -58,7 +58,7 @@ export default function Register() {
                     disabled={isLoading}
                   />
                   <TextField
-                    label="Sobrenome"
+                    label="Last Name"
                     id="lastName"
                     name="lastName"
                     value={values.lastName}
@@ -69,7 +69,7 @@ export default function Register() {
                   />
                 </div>
                 <TextField
-                  label="Cidade, Estado"
+                  label="City, State"
                   id="location"
                   name="location"
                   value={values.location}
@@ -79,7 +79,7 @@ export default function Register() {
                   disabled={isLoading}
                 />
                 <TextField
-                  label="Ocupação"
+                  label="Occupation"
                   id="occupation"
                   name="occupation"
                   value={values.occupation}
@@ -122,7 +122,7 @@ export default function Register() {
                 />
                 <TextField
                   type="password"
-                  label="Senha"
+                  label="Password"
                   id="password"
                   name="password"
                   value={values.password}
@@ -133,7 +133,7 @@ export default function Register() {
                 />
                 <TextField
                   type="password"
-                  label="Confirmar senha"
+                  label="Confirm Password"
                   id="passwordConfirm"
                   name="passwordConfirm"
                   value={values.passwordConfirm}
@@ -146,9 +146,9 @@ export default function Register() {
                 <button
                   type={isLoading ? 'button' : 'submit'}
                   className={isLoading ? 'buttonLoading' : ''}
-                  title="Criar Perfil"
+                  title="Create Profile"
                 >
-                  {isLoading ? <Loading /> : 'Salvar'}
+                  {isLoading ? <Loading /> : 'Save'}
                 </button>
 
                 {apiErrors.map((error, index) => (
@@ -156,8 +156,8 @@ export default function Register() {
                     {error}
                   </p>
                 ))}
-                <Link to="/login" title="Já tem uma conta? Faça login aqui.">
-                  Já tem uma conta? Faça login aqui.
+                <Link to="/login" title="Already have an account? Log in here.">
+                  Already have an account? Log in here.
                 </Link>
               </form>
             )}

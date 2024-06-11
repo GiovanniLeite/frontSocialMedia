@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import rootSaga from './rootSaga';
+import axios from '../../services/axios';
 
 import authReducer from '../features/auth/slice';
 import friendListReducer from '../features/friendList/slice';
@@ -23,6 +24,20 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const sagaMiddleware = createSagaMiddleware();
+
+// Configure axios to use the updated authorization token
+axios.interceptors.request.use(
+  (config) => {
+    const token = store.getState().auth.token;
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 export const store = configureStore({
   reducer: persistedReducer,

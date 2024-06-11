@@ -6,6 +6,11 @@ import {
   REQUIRED_FIELD_ERROR,
   INVALID_EMAIL_ERROR,
   MIN_LENGTH_PASSWORD_ERROR,
+  UPPERCASE_LETTER_ERROR,
+  LOWERCASE_LETTER_ERROR,
+  NUMBER_ERROR,
+  SPECIAL_CHARACTER_ERROR,
+  PASSWORD_CONFIRMATION_ERROR,
 } from '../../../../constants/messages';
 
 export const infoValidation = {
@@ -35,14 +40,14 @@ export const passwordValidation = {
       .string()
       .min(8, MIN_LENGTH_PASSWORD_ERROR)
       .max(50, MAX_LENGTH_ERROR)
-      .matches(/[A-Z]/, 'Deve ter pelo menos uma letra maiúscula Ex. ABC')
-      .matches(/[a-z]/, 'Deve ter pelo menos uma letra minúscula Ex. abc')
-      .matches(/[0-9]/, 'Deve ter pelo menos um número Ex. 981')
-      .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Deve ter pelo menos um caractere especial Ex. @$!')
+      .matches(/[A-Z]/, UPPERCASE_LETTER_ERROR)
+      .matches(/[a-z]/, LOWERCASE_LETTER_ERROR)
+      .matches(/[0-9]/, NUMBER_ERROR)
+      .matches(/[!@#$%^&*(),.?":{}|<>]/, SPECIAL_CHARACTER_ERROR)
       .required(REQUIRED_FIELD_ERROR),
     passwordConfirm: yup
       .string()
-      .oneOf([yup.ref('password'), null], 'Senha e Confirmação devem ser iguais')
+      .oneOf([yup.ref('password'), null], PASSWORD_CONFIRMATION_ERROR)
       .required(REQUIRED_FIELD_ERROR),
   }),
 };

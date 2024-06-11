@@ -21,13 +21,13 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
   const { list } = useSelector((state) => state.friendList);
 
   const name = `${user.firstName} ${user.lastName}`;
-  const isFriend = true;
+  const isFriend = user.isFriend;
 
   const menuItems = [
-    { id: 0, label: 'Publicações' },
-    { id: 1, label: 'Fotos' },
-    { id: 2, label: 'Amigos' },
-    { id: 3, label: 'Notificações' },
+    { id: 0, label: 'Publications' },
+    { id: 1, label: 'Pictures' },
+    { id: 2, label: 'Friends' },
+    { id: 3, label: 'Notifications' },
   ];
 
   const [showAltMenu, setShowAltMenu] = useState(false);
@@ -62,8 +62,8 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
           alt={`${name} cover`}
         />
         {isLoggedUser && (
-          <button className="expandingButton" onClick={() => console.log('Editar capa')}>
-            <MdOutlineSettings size={20} /> <span>Editar capa</span>
+          <button className="expandingButton" onClick={() => console.log('Edit')}>
+            <MdOutlineSettings size={20} /> <span>Edit cover</span>
           </button>
         )}
       </div>
@@ -71,7 +71,7 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
         <UserImage image={user.picturePath} userName={name} size={150} altSize={120} breakpoint={600} />
         <div className="userInfo">
           <h5 title={name}>{name}</h5>
-          <span title="Amigos">{`${user.friends.length} Amigos`}</span>
+          <span title="Friends">{`${user.friends.length} Friends`}</span>
           <div className="friends">
             {list.length ? (
               list.slice(0, 5).map((friend) => (
@@ -87,7 +87,7 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
             ) : (
               <Link to="/search-friends" className="expandingButton searchFriends">
                 <MdOutlinePeopleAlt size={25} />
-                <span>Encontre seus amigos</span>
+                <span>Find your friends</span>
               </Link>
             )}
           </div>
@@ -95,25 +95,25 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
       </div>
       <div className="helperBtnsWrapper">
         {isLoggedUser ? (
-          <button title="Editar Perfil" onClick={() => handleMenu(4)}>
+          <button title="Edit profile" onClick={() => handleMenu(4)}>
             <MdOutlineManageAccounts size={20} />
-            Editar
+            Edit
           </button>
         ) : (
-          <button title={`${isFriend ? 'Remover' : 'Adicionar'} ${name}`} onClick={() => console.log('Amigo')}>
+          <button title={`${isFriend ? 'Remove' : 'Add'} ${name}`} onClick={() => console.log('Friend')}>
             {isFriend ? (
               <>
-                <MdOutlinePersonRemove size={20} /> Remover
+                <MdOutlinePersonRemove size={20} /> Remove
               </>
             ) : (
               <>
-                <MdPersonAddAlt size={20} /> Adicionar
+                <MdPersonAddAlt size={20} /> Add
               </>
             )}
           </button>
         )}
-        <button className="coloredButton" onClick={() => console.log('Mensagem')}>
-          <MdMessage size={20} /> <span>Mensagem</span>
+        <button className="coloredButton" onClick={() => console.log('Message')}>
+          <MdMessage size={20} /> <span>Message</span>
         </button>
       </div>
       <ul className="defaultMenu">
@@ -132,10 +132,10 @@ export default function MainProfile({ user, isLoggedUser, tab, handleTabs }) {
       </ul>
       <ul className={`altMenu ${showAltMenu ? 'showAltMenu' : ''}`}>
         <li>
-          <button onClick={() => handleMenu(2)}>Amigos</button>
+          <button onClick={() => handleMenu(2)}>Friends</button>
         </li>
         <li>
-          <button onClick={() => handleMenu(3)}>Notificações</button>
+          <button onClick={() => handleMenu(3)}>Notifications</button>
         </li>
       </ul>
     </Container>

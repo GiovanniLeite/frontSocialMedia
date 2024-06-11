@@ -12,14 +12,14 @@ export default function Modal({ title, description, showModal, handleCloseModal,
         <div className="divider" />
         <p>{description}</p>
         <div className="flexBetween action">
-          <button onClick={() => handleCloseModal()}>Cancelar</button>
+          <button onClick={() => handleCloseModal()}>Cancel</button>
           <button
             onClick={() => {
               handleCloseModal();
               handleConfirm();
             }}
           >
-            Confirmar
+            Confirm
           </button>
         </div>
       </div>

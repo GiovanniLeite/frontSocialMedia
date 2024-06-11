@@ -6,7 +6,7 @@ export default function Page404() {
   return (
     <>
       <Helmet>
-        <title>ShareFun | Erro 404</title>
+        <title>ShareFun | Error 404</title>
       </Helmet>
       <Container>404</Container>
     </>

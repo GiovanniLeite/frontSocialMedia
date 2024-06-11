@@ -1,5 +1,4 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { get } from 'lodash';
 
 import axios from '../../../services/axios';
 import { handleApiErrorMessages } from '../../../services/handleApiErrors';
@@ -8,10 +7,9 @@ import {
   INVALID_CREDENTIALS_ERROR,
   INVALID_EMAIL_OR_USER_NOT_EXIST_ERROR,
   INVALID_PASSWORD_ERROR,
-} from '../../../constants/messages';
+} from '../../../constants/apiErrorMessages';
 
 import { authActions } from './slice';
-import * as actions from './actions';
 
 export function* registerRequest(action) {
   try {
@@ -43,16 +41,9 @@ export function* loginRequest(action) {
   }
 }
 
-function persistRehydrate(action) {
-  const token = get(action, 'payload.auth.token', '');
-  if (!token) return;
-  axios.defaults.headers.Authorization = `Bearer ${token}`;
-}
-
 export default function* authSaga() {
   yield all([
     takeLatest(authActions.registerRequest.type, registerRequest),
     takeLatest(authActions.loginRequest.type, loginRequest),
-    takeLatest(actions.persistRehydrate.type, persistRehydrate),
   ]);
 }

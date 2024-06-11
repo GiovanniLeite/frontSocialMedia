@@ -35,7 +35,7 @@ export default function Login() {
   return (
     <>
       <Helmet>
-        <title>ShareFun | Login | Comece a compartilhar</title>
+        <title>ShareFun | Login | Start Sharing</title>
       </Helmet>
       <Container>
         <FormBox>
@@ -58,7 +58,7 @@ export default function Login() {
                 />
                 <TextField
                   type="password"
-                  label="Senha"
+                  label="Password"
                   id="password"
                   name="password"
                   value={values.password}
@@ -68,12 +68,8 @@ export default function Login() {
                   disabled={isLoading}
                 />
 
-                <button
-                  type={isLoading ? 'button' : 'submit'}
-                  className={isLoading ? 'buttonLoading' : ''}
-                  title="Fazer login"
-                >
-                  {isLoading ? <Loading /> : 'Entrar'}
+                <button type={isLoading ? 'button' : 'submit'} className={isLoading ? 'buttonLoading' : ''}>
+                  {isLoading ? <Loading /> : 'Login'}
                 </button>
 
                 {apiErrors.map((error, index) => (
@@ -82,12 +78,12 @@ export default function Login() {
                   </p>
                 ))}
                 {apiErrors.length > 0 && (
-                  <Link to="/" className="passwordRecover" title="Esqueceu a senha? Clique aqui">
-                    Esqueceu a senha? Clique aqui
+                  <Link to="/" className="passwordRecover" title="Forgot your password? Click here">
+                    Forgot your password? Click here
                   </Link>
                 )}
-                <Link to="/register" title="Ainda não tem uma conta? Crie uma aqui">
-                  Ainda não tem uma conta? Crie uma aqui
+                <Link to="/register" title="Don't have an account? Create one here">
+                  {"Don't have an account? Create one here"}
                 </Link>
               </form>
             )}
